@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--
+    <TargetFrameworks>net5.0;net48;net461;netstandard2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net40</TargetFramework>
+    <TargetFrameworks>net5.0</TargetFrameworks>
+    -->
+
+    <TargetFrameworks>net48</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <OutputPath>../ApplicationBinaries/Guest_IGShell</OutputPath>
+	  <!--
+    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/$(Configuration)</OutputPath>
+	  -->
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Setting ommand-line arguments and execting direcory .... -->
+    <RunArguments>Interactive Calc</RunArguments>
+    <RunWorkingDirectory>./</RunWorkingDirectory>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!--
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <ProjectGuid>{841FA893-8609-46FA-89B9-4F70D7E09786}</ProjectGuid>
+    
+    -->
+
+    <RootNamespace>IG.Guests</RootNamespace>
+    <Company>Igor Grešovnik</Company>
+    <Product>Guest_IGShell</Product>
+    <Description>Investigation Generic Library's (IGLib) shell for guest developers.</Description>
+    <Copyright>Copyright © Igor Grešovnik</Copyright>
+    <AssemblyVersion>1.9.1</AssemblyVersion>
+    <FileVersion>1.9.1</FileVersion>
+  </PropertyGroup>
+  
+  <!--
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  -->
+  
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\iglib\extensions\iglibext\IGLibExt.csproj" />
+    <ProjectReference Include="..\..\..\iglib\extensions\igplot2d\plot2d\IGLibPlot2D.csproj" />
+    <ProjectReference Include="..\..\..\iglib\extensions\igplot3d\plot3d\IGLibPlot3D.csproj" />
+    <ProjectReference Include="..\..\..\iglib\external\mathnet-numerics\src\Numerics\Numerics.csproj" />
+    <ProjectReference Include="..\..\..\iglib\igbase\IGLib.csproj" />
+    <ProjectReference Include="..\..\..\iglib\igforms\IGLibForms.csproj" />
+    <ProjectReference Include="..\..\..\iglib\modules\IGLibCore\src\IGLibCore.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="ReadmeIGLibShellApp.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\ExamplesIGShell.cmd" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);*.csproj11;HashForm/**/*;HashShell/**/*;Backup*/**/*</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <!--
+  Remark: individual exclusions below are replaced by DefaultItemExcludes above, which are leaner and more efficient for MSBuild.
+  <ItemGroup>
+    <Compile Remove="HashForm\ProgramHashGui.cs" />
+    <Compile Remove="HashForm\SharedProgramHashGui.cs" />
+    <Compile Remove="HashShell\AppEmbeddedCrypto.cs" />
+    <Compile Remove="HashShell\ProgramHashShell.cs" />
+    <Compile Remove="HashShell\SharedProgramHashShell.cs" />
+  </ItemGroup>
+  -->
+  
+</Project>

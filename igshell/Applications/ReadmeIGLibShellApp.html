@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <br>
+    <h1>IGLib with a Simple Shell Application<br>
+    </h1>
+    This directory contains binaries of the <i>Investigative Generic
+      Library</i> (<i>IGLib</i>) and a C# project for the MS Visual
+    Studio Express in which a simple shell application is implemented
+    based on the library. <br>
+    <br>
+    You can unpack the compressed directory anywhere on your disk and
+    use it.<br>
+    <br>
+    The application's binary (<i></i><i>igs.exe</i>) is
+    already in the root directory together with the libraries and can be
+    readily run from this location. This is a console application
+    controlled by a built-in command-line interpreter, therefore you
+    must run it with command arguments that launch specific actions. A
+    small number of examples are listed in the command file (a file with
+    the <i>.cmd</i> extension) within the root directory.<br>
+    <br>
+    &nbsp; For example, you can launch a particular demonstration 2D
+    graphic plot by running the following command:<br>
+    <br>
+    igs.exe Shell Internal IG.Script.ScriptGraphics2dBase
+    Graph CurvePlotLissajous 5 4<br>
+    <br>
+    &nbsp; This example is listed in a command file so command-line
+    arguments can be just copied to the console where the application is
+    run. Here "<i>igs.exe</i>" is the name of the
+    application's compiled program, "<i>Shell</i>" is the command and
+    the rest are arguments to this command. In the particular case,
+    actually, "<i>Shell</i>" is the command that launches another nested
+    command-line interpreter, "<i>Internal</i>" is the command of that
+    nested interpreter that launches internal built-in scripts, "<i>IG.Script.ScriptGraphics2dBase</i>"
+    is a full name of such an internal script, "<i>Graph</i>" is a
+    command built in this internal script, "<i>CurvePlotLissajous </i>"
+    is argument of this command that specifies which type of
+    demonstration graph is launched, and 5 and 4 are two parameters of
+    this graph that define the final appearance of the plotted curve.<br>
+    <br>
+    &nbsp; The <i>IGLib</i> depends on a number of third party
+    libraries. Please read the <a href="ReadMe_IGLib.html">IGLib's
+      ReadMe file</a> included in the root directory for information
+    about these libraries and the IGLib itself. <br>
+    <br>
+    More information about IGLib and the libraries on which it depends
+    can be found on the library's home page:<br>
+    <br>
+    <a href="http://www2.arnes.si/%7Eljc3m2/igor/iglib/">http://www2.arnes.si/~ljc3m2/igor/iglib/</a><br>
+    <br>
+    The complete code documentation can also be found at this address.<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </body>
+</html>

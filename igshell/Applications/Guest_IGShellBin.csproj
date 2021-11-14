@@ -1,0 +1,92 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+		<ProductVersion>8.0.30703</ProductVersion>
+		<ProjectGuid>{A9FA7553-5835-4511-90C8-E39FB2B5A068}</ProjectGuid>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>IG.Ferdo</RootNamespace>
+		<AssemblyName>GuestIGShell</AssemblyName>
+		<TargetFramework>net48</TargetFramework>
+		<OutputPath>../ApplicationBinaries/Guest_IGShell</OutputPath>
+	</PropertyGroup>
+
+
+	<PropertyGroup>
+		<!-- Setting ommand-line arguments and execting direcory .... -->
+		<RunArguments>Interactive Calc</RunArguments>
+		<RunWorkingDirectory>./</RunWorkingDirectory>
+	</PropertyGroup>
+
+	<!--
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugType>full</DebugType>
+    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/Debug</OutputPath>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/Release</OutputPath>
+  </PropertyGroup>
+	-->
+
+	<ItemGroup>
+    <Reference Include="IGLib">
+	    <!--
+      <HintPath>../IGLibShell/bin/Debug/IGLib.dll</HintPath>
+	    -->
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLib.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibCore">
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLibCore.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibExt">
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLibExt.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibForms">
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLibForms.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibPlot2D">
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLibPlot2D.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibPlot3D">
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLibPlot3D.dll</HintPath>
+    </Reference>
+    <!--   
+    <Reference Include="MathNet.Numerics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\IGLibShell\bin\Debug\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+	-->
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="0readme_Applications.txt" />
+    <Content Include="GuestIGShell\00Lib\00GuestFerdo\0ReadMeFerdo.txt" />
+    <Content Include="GuestIGShell\00Lib\00GuestIgor\0ReadMeIgor.txt" />
+    <Content Include="GuestIGShell\00Lib\0ReadMeLib.txt" />
+    <Content Include="GuestIGShell\0readme_guest_igshell.txt" />
+    <Content Include="GuestIGShell\application\0readme_shell.txt" />
+    <Content Include="ReadmeIGLibShellApp.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\ExamplesIGShell.cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\iglib\external\mathnet-numerics\src\Numerics\Numerics.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="HashForm\ProgramHashGui.cs" />
+    <Compile Remove="HashForm\SharedProgramHashGui.cs" />
+    <Compile Remove="HashShell\AppEmbeddedCrypto.cs" />
+    <Compile Remove="HashShell\ProgramHashShell.cs" />
+    <Compile Remove="HashShell\SharedProgramHashShell.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,104 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--
+    <TargetFrameworks>net5.0;net48;net461;netstandard2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net40</TargetFramework>
+    <TargetFrameworks>net5.0</TargetFrameworks>
+    -->
+
+    <TargetFrameworks>net48</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <OutputPath>../ApplicationBinaries/HashShell</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Setting ommand-line arguments and execting direcory .... -->
+    <RunArguments>Interactive</RunArguments>
+    <RunWorkingDirectory>./</RunWorkingDirectory>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!--
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <ProjectGuid>{C03FDBAC-02D0-4721-87B9-8145D144193D}</ProjectGuid>
+    
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    
+    <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
+    -->
+
+    <RootNamespace>IG.Lib</RootNamespace>
+    <Company>Igor Grešovnik</Company>
+    <Product>Guest_IGShell</Product>
+    <Description>Investigation Generic Library's (IGLib) shell for guest developers.</Description>
+    <Copyright>Copyright © Igor Grešovnik</Copyright>
+    <AssemblyVersion>1.9.1</AssemblyVersion>
+    <FileVersion>1.9.1</FileVersion>
+    
+  </PropertyGroup>
+  
+  <!--
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugType>full</DebugType>
+    <OutputPath>../ApplicationBinaries/HashShell/bin/Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>../ApplicationBinaries/HashShell/bin/Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>../ApplicationBinaries/HashShell/bin/Debug</OutputPath>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>../ApplicationBinaries/HashShell/bin/Release</OutputPath>
+  </PropertyGroup>
+  -->
+  
+  
+  <PropertyGroup>
+    <!--
+    <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
+    -->
+  </PropertyGroup>
+  
+  
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\iglib\igbase\IGLib.csproj" />
+    <ProjectReference Include="..\..\..\iglib\igforms\IGLibForms.csproj" />
+    <ProjectReference Include="..\..\..\iglib\modules\IGLibCore\src\IGLibCore.csproj" />
+  </ItemGroup>
+
+
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);*.csproj11;ReadmeIGLibShellApp.html;
+    HashForm/**/*;GuestIGShell/**/*;Backup*/**/*</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <!--
+  Remark: individual exclusions below are replaced by DefaultItemExcludes above, which are leaner and more efficient for MSBuild.
+  <ItemGroup>
+    <Compile Remove="HashForm\ProgramHashGui.cs" />
+    <Compile Remove="HashForm\SharedProgramHashGui.cs" />
+    <Compile Remove="GuestIGShell\00Lib\ApplicationIgShell.cs" />
+    <Compile Remove="GuestIGShell\00Lib\Program_IGShell.cs" />
+    <Compile Remove="GuestIGShell\00Lib\ScriptAppIGShell.cs" />
+    <Compile Remove="GuestIGShell\application\AppIGShell.cs" />
+    <Compile Remove="GuestIGShell\application\ShellIGLib.cs" />
+    <Compile Remove="GuestIGShell\00Lib\00GuestFerdo\AppFerdo.cs" />
+    <Compile Remove="GuestIGShell\00Lib\00GuestFerdo\UtilitiesFerdo.cs" />
+    <Compile Remove="GuestIGShell\00Lib\00GuestIgor\AppIgorFor Ferdo.cs" />
+  </ItemGroup>
+  -->
+  
+  
+</Project>

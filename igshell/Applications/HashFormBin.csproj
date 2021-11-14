@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <ProjectGuid>{24DE81F4-F636-4D80-BC15-424EA17E12D1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>IG.Lib</RootNamespace>
+    <AssemblyName>HashForm</AssemblyName>
+    <TargetFramework>net48</TargetFramework>
+	<OutputPath>../ApplicationBinaries/HashForm</OutputPath>
+  </PropertyGroup>
+	
+	<!--
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugType>full</DebugType>
+    <OutputPath>../ApplicationBinaries/HashForm/bin/Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>../ApplicationBinaries/HashForm/bin/Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>../ApplicationBinaries/HashForm/bin/Debug</OutputPath>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>../ApplicationBinaries/HashForm/bin/Release</OutputPath>
+  </PropertyGroup>
+  -->
+	
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IGLib">
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLib.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibForms">
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)//IGLibForms.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="HashShell\AppEmbeddedCrypto.cs" />
+    <Compile Remove="HashShell\ProgramHashShell.cs" />
+    <Compile Remove="HashShell\SharedProgramHashShell.cs" />
+    <Compile Remove="GuestIGShell\00Lib\ApplicationIgShell.cs" />
+    <Compile Remove="GuestIGShell\00Lib\Program_IGShell.cs" />
+    <Compile Remove="GuestIGShell\00Lib\ScriptAppIGShell.cs" />
+    <Compile Remove="GuestIGShell\application\AppIGShell.cs" />
+    <Compile Remove="GuestIGShell\application\ShellIGLib.cs" />
+    <Compile Remove="GuestIGShell\00Lib\00GuestFerdo\AppFerdo.cs" />
+    <Compile Remove="GuestIGShell\00Lib\00GuestFerdo\UtilitiesFerdo.cs" />
+    <Compile Remove="GuestIGShell\00Lib\00GuestIgor\AppIgorFor Ferdo.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A9FA7553-5835-4511-90C8-E39FB2B5A068}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IG.Ferdo</RootNamespace>
+    <AssemblyName>GuestIGShell</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/Debug</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/Release</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IGLib">
+      <HintPath>../IGLibShell/bin/Debug/IGLib.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibExt">
+      <HintPath>../IGLibShell/bin/Debug/IGLibExt.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibForms">
+      <HintPath>../IGLibShell/bin/Debug/IGLibForms.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibPlot2D">
+      <HintPath>../IGLibShell/bin/Debug/IGLibPlot2D.dll</HintPath>
+    </Reference>
+    <Reference Include="IGLibPlot3D">
+      <HintPath>../IGLibShell/bin/Debug/IGLibPlot3D.dll</HintPath>
+    </Reference>
+    <!--   
+    <Reference Include="MathNet.Numerics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\IGLibShell\bin\Debug\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+	-->
+    <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GuestIGShell\00Lib\ScriptAppIGShell.cs" />
+    <Content Include="0readme_Applications.txt" />
+    <Content Include="GuestIGShell\00Lib\00GuestFerdo\0ReadMeFerdo.txt" />
+    <Content Include="GuestIGShell\00Lib\00GuestIgor\0ReadMeIgor.txt" />
+    <Content Include="GuestIGShell\00Lib\0ReadMeLib.txt" />
+    <Content Include="GuestIGShell\0readme_guest_igshell.txt" />
+    <Compile Include="GuestIGShell\00Lib\ApplicationIgShell.cs" />
+    <Compile Include="GuestIGShell\application\AppIGShell.cs" />
+    <Compile Include="GuestIGShell\00Lib\00GuestFerdo\AppFerdo.cs" />
+    <Compile Include="GuestIGShell\00Lib\00GuestIgor\AppIgorFor Ferdo.cs" />
+    <Compile Include="GuestIGShell\application\ShellIGLib.cs" />
+    <Compile Include="GuestIGShell\00Lib\00GuestFerdo\UtilitiesFerdo.cs" />
+    <Compile Include="GuestIGShell\00Lib\Program_IGShell.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="GuestIGShell\application\0readme_shell.txt" />
+    <Content Include="ReadmeIGLibShellApp.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="data\ExamplesIGShell.cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="testdata\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\iglib\external\mathnet-numerics\src\Numerics\Numerics.csproj">
+      <Project>{f5fe0255-4c94-4689-87b3-964fcd8571f6}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

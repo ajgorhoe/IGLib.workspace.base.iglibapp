@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <ProjectGuid>{62F61D8F-A38F-449C-8D15-52169CAF162E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>IG.Lib</RootNamespace>
+    <AssemblyName>HashShell</AssemblyName>
+    <TargetFramework>net48</TargetFramework>
+    <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
+	<OutputPath>../ApplicationBinaries/HashShell</OutputPath>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<!-- Setting ommand-line arguments and execting direcory .... -->
+		<RunArguments>Interactive</RunArguments>
+		<RunWorkingDirectory>./</RunWorkingDirectory>
+	</PropertyGroup>
+
+	<!--
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugType>full</DebugType>
+    <OutputPath>../ApplicationBinaries/HashShell/bin/Debug</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>../ApplicationBinaries/HashShell/bin/Release</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>../ApplicationBinaries/HashShell/bin/Debug</OutputPath>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>../ApplicationBinaries/HashShell/bin/Release</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup>
+    <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
+    </PropertyGroup>
+	-->
+	
+  <ItemGroup>
+    <Reference Include="IGLibCore">
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLibCore.dll</HintPath>
+    </Reference>
+	  <Reference Include="IGLib">
+		  <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLib.dll</HintPath>
+	  </Reference>
+	  <Reference Include="IGLibForms">
+      <HintPath>../ApplicationBinaries/Guest_IGShell/$(TargetFramework)/IGLibForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HashShell\HashShell.cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="HashForm\ProgramHashGui.cs" />
+    <Compile Remove="HashForm\SharedProgramHashGui.cs" />
+    <Compile Remove="GuestIGShell\00Lib\ApplicationIgShell.cs" />
+    <Compile Remove="GuestIGShell\00Lib\Program_IGShell.cs" />
+    <Compile Remove="GuestIGShell\00Lib\ScriptAppIGShell.cs" />
+    <Compile Remove="GuestIGShell\application\AppIGShell.cs" />
+    <Compile Remove="GuestIGShell\application\ShellIGLib.cs" />
+    <Compile Remove="GuestIGShell\00Lib\00GuestFerdo\AppFerdo.cs" />
+    <Compile Remove="GuestIGShell\00Lib\00GuestFerdo\UtilitiesFerdo.cs" />
+    <Compile Remove="GuestIGShell\00Lib\00GuestIgor\AppIgorFor Ferdo.cs" />
+  </ItemGroup>
+</Project>
