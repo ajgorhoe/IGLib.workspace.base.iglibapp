@@ -20,17 +20,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <!--
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <ProjectGuid>{C03FDBAC-02D0-4721-87B9-8145D144193D}</ProjectGuid>
-    
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net48</TargetFramework>
-    
-    <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
-    <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
-    -->
 
     <RootNamespace>IG.Lib</RootNamespace>
     <Company>Igor Grešovnik</Company>
@@ -42,31 +31,17 @@
     
   </PropertyGroup>
   
-  <!--
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugType>full</DebugType>
-    <OutputPath>../ApplicationBinaries/HashShell/bin/Debug</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <OutputPath>../ApplicationBinaries/HashShell/bin/Release</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <OutputPath>../ApplicationBinaries/HashShell/bin/Debug</OutputPath>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>../ApplicationBinaries/HashShell/bin/Release</OutputPath>
-  </PropertyGroup>
-  -->
-  
-  
   <PropertyGroup>
     <!--
     <PostBuildEvent>copy  $(ProjectDir)\HashShell\HashShell.cmd  $(TargetDir)</PostBuildEvent>
     -->
   </PropertyGroup>
+	
+  <ItemGroup>
+    <None Update="HashShell\HashShell.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
   
   <ItemGroup>
@@ -78,27 +53,10 @@
     <ProjectReference Include="..\..\..\iglib\modules\IGLibCore\src\IGLibCore.csproj" />
   </ItemGroup>
 
-
   <PropertyGroup>
     <DefaultItemExcludes>$(DefaultItemExcludes);*.csproj11;ReadmeIGLibShellApp.html;
     HashForm/**/*;GuestIGShell/**/*;Backup*/**/*</DefaultItemExcludes>
   </PropertyGroup>
-
-  <!--
-  Remark: individual exclusions below are replaced by DefaultItemExcludes above, which are leaner and more efficient for MSBuild.
-  <ItemGroup>
-    <Compile Remove="HashForm\ProgramHashGui.cs" />
-    <Compile Remove="HashForm\SharedProgramHashGui.cs" />
-    <Compile Remove="GuestIGShell\00Lib\ApplicationIgShell.cs" />
-    <Compile Remove="GuestIGShell\00Lib\Program_IGShell.cs" />
-    <Compile Remove="GuestIGShell\00Lib\ScriptAppIGShell.cs" />
-    <Compile Remove="GuestIGShell\application\AppIGShell.cs" />
-    <Compile Remove="GuestIGShell\application\ShellIGLib.cs" />
-    <Compile Remove="GuestIGShell\00Lib\00GuestFerdo\AppFerdo.cs" />
-    <Compile Remove="GuestIGShell\00Lib\00GuestFerdo\UtilitiesFerdo.cs" />
-    <Compile Remove="GuestIGShell\00Lib\00GuestIgor\AppIgorFor Ferdo.cs" />
-  </ItemGroup>
-  -->
-  
+ 
   
 </Project>

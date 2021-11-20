@@ -11,9 +11,6 @@
     <TargetFrameworks>net48</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <OutputPath>../ApplicationBinaries/Guest_IGShell</OutputPath>
-	  <!--
-    <OutputPath>../ApplicationBinaries/Guest_IGShell/bin/$(Configuration)</OutputPath>
-	  -->
   </PropertyGroup>
 
   <PropertyGroup>
@@ -23,13 +20,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <!--
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <ProjectGuid>{841FA893-8609-46FA-89B9-4F70D7E09786}</ProjectGuid>
-    
-    -->
-
     <RootNamespace>IG.Guests</RootNamespace>
     <Company>Igor Grešovnik</Company>
     <Product>Guest_IGShell</Product>
@@ -39,18 +29,6 @@
     <FileVersion>1.9.1</FileVersion>
   </PropertyGroup>
   
-  <!--
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-  </PropertyGroup>
-  -->
   
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
@@ -77,15 +55,5 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);*.csproj11;HashForm/**/*;HashShell/**/*;Backup*/**/*</DefaultItemExcludes>
   </PropertyGroup>
 
-  <!--
-  Remark: individual exclusions below are replaced by DefaultItemExcludes above, which are leaner and more efficient for MSBuild.
-  <ItemGroup>
-    <Compile Remove="HashForm\ProgramHashGui.cs" />
-    <Compile Remove="HashForm\SharedProgramHashGui.cs" />
-    <Compile Remove="HashShell\AppEmbeddedCrypto.cs" />
-    <Compile Remove="HashShell\ProgramHashShell.cs" />
-    <Compile Remove="HashShell\SharedProgramHashShell.cs" />
-  </ItemGroup>
-  -->
   
 </Project>
