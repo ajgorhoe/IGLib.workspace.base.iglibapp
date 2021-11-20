@@ -15,7 +15,6 @@ using IG.Plot2d;
 using IG.Gr3d;
 
 using IG.Ferdo;
-using IG.Lib;
 
 namespace IG.Script
 {

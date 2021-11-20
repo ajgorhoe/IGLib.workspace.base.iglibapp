@@ -37,15 +37,15 @@ namespace IG.Test
         public static void Main(string[] args)
         {
 
-            if (0 == 1)
-            {
-                // Write command-line arguments and current directory for control... This was used for migration to SDK-style projects.
-                Console.WriteLine($"Program {Process.GetCurrentProcess().ProcessName}: command-line argumets: ");
-                for (int i = 0; i < args.Length; ++i) { Console.WriteLine("  " + i + ": " + args[i] + " "); }
-                Console.WriteLine("Current directory: " + Directory.GetCurrentDirectory());
-                Console.WriteLine("Press any key to continue!");
-                Console.ReadKey();
-            }
+            //if (0 == 1)
+            //{
+            //    // Write command-line arguments and current directory for control... This was used for migration to SDK-style projects.
+            //    Console.WriteLine($"Program {Process.GetCurrentProcess().ProcessName}: command-line argumets: ");
+            //    for (int i = 0; i < args.Length; ++i) { Console.WriteLine("  " + i + ": " + args[i] + " "); }
+            //    Console.WriteLine("Current directory: " + Directory.GetCurrentDirectory());
+            //    Console.WriteLine("Press any key to continue!");
+            //    Console.ReadKey();
+            //}
 
 
             Console.WriteLine("\n\n*************************\n\n*************************\n\n");

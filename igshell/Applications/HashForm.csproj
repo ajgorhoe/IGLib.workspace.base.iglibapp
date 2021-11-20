@@ -21,11 +21,6 @@
 
 
   <PropertyGroup>
-    <!--
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <ProjectGuid>{247CB789-4DBB-485E-8DAC-6AA66DA341AA}</ProjectGuid>
-    -->
 
     <RootNamespace>IG.Lib</RootNamespace>
     <AssemblyTitle>HashForm</AssemblyTitle>
