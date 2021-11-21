@@ -46,11 +46,6 @@
 		<Reference Include="System.Windows.Forms" />
 		<Reference Include="System.Data.DataSetExtensions" />
 	</ItemGroup>
-	<ItemGroup>
-		<Content Include="..\..\..\iglib\00readme_developers_iglib.html">
-			<Link>00readme_developers_iglib.html</Link>
-		</Content>
-	</ItemGroup>
 
 
 	<ItemGroup>
