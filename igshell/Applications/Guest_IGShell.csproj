@@ -8,9 +8,9 @@
     <TargetFrameworks>net5.0</TargetFrameworks>
     -->
 
-	  <TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
-	  <UseWindowsForms>true</UseWindowsForms>
-	  <OutputType>Exe</OutputType>
+	<TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
+	<UseWindowsForms>true</UseWindowsForms>
+	<OutputType>Exe</OutputType>
     <OutputPath>../ApplicationBinaries/Guest_IGShell</OutputPath>
   </PropertyGroup>
 
