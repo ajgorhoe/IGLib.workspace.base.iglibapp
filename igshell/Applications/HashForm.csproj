@@ -6,8 +6,9 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     -->
 
-    <TargetFrameworks>net48</TargetFrameworks>
-    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
+	  <UseWindowsForms>true</UseWindowsForms>
+	  <OutputType>WinExe</OutputType>
     <OutputPath>../ApplicationBinaries/HashForm</OutputPath>
   </PropertyGroup>
 
@@ -33,30 +34,7 @@
     <AssemblyVersion>1.9.1.*</AssemblyVersion>
     <FileVersion>1.9.1.*</FileVersion>
     -->
-  </PropertyGroup>
-  
-  <!--
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugType>full</DebugType>
-    <OutputPath>../ApplicationBinaries/HashForm/bin/</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <OutputPath>../ApplicationBinaries/HashForm/bin/Release</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <OutputPath>../ApplicationBinaries/HashForm/bin/$(Configuration)\</OutputPath>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>../ApplicationBinaries/HashForm/bin/Release</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  -->
-  
+  </PropertyGroup> 
   
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
