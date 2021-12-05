@@ -8,14 +8,15 @@
     <TargetFrameworks>net5.0</TargetFrameworks>
     -->
 
-    <TargetFrameworks>net48</TargetFrameworks>
-    <OutputType>Exe</OutputType>
+	  <TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
+	  <UseWindowsForms>true</UseWindowsForms>
+	  <OutputType>Exe</OutputType>
     <OutputPath>../ApplicationBinaries/Guest_IGShell</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup>
     <!-- Setting ommand-line arguments and execting direcory .... -->
-    <RunArguments>Interactive Calc</RunArguments>
+    <RunArguments>Interactive</RunArguments>
     <RunWorkingDirectory>./</RunWorkingDirectory>
   </PropertyGroup>
 
