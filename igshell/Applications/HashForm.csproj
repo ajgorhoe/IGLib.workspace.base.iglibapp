@@ -6,7 +6,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     -->
 
-    <TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
+    <TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
 	<UseWindowsForms>true</UseWindowsForms>
 	<OutputType>WinExe</OutputType>
     <OutputPath>../ApplicationBinaries/HashForm</OutputPath>
