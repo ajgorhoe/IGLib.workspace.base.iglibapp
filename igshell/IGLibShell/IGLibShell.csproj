@@ -4,17 +4,20 @@
 		<!--
     <TargetFrameworks>net5.0;net48;net461;netstandard2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <TargetFramework>net40</TargetFramework>
-    <TargetFrameworks>net5.0</TargetFrameworks>
+		<TargetFramework>net5.0-windows</TargetFramework>
     -->
 
-		<TargetFrameworks>net48</TargetFrameworks>
+		<TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
+		<UseWindowsForms>true</UseWindowsForms>
 		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<!-- Setting ommand-line arguments and execting direcory .... -->
-		<RunArguments>Interactive Calc</RunArguments>
+		<!-- Setting ommand-line arguments and execting direcory .... 
+		
+		-->
+		<RunArguments Condition=" '$(TargetFramework)' == 'net48'">Interactive Calc</RunArguments>
+		<RunArguments>Interactive</RunArguments>
 		<RunWorkingDirectory>./</RunWorkingDirectory>
 		<!--
     <RunWorkingDirectory>../../../../../workspaceprojects/00tests/examples</RunWorkingDirectory>
@@ -43,7 +46,6 @@
 
 
 	<ItemGroup>
-		<Reference Include="System.Windows.Forms" />
 		<Reference Include="System.Data.DataSetExtensions" />
 	</ItemGroup>
 
