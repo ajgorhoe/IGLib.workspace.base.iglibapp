@@ -34,11 +34,7 @@
     <AssemblyVersion>1.9.1.*</AssemblyVersion>
     <FileVersion>1.9.1.*</FileVersion>
     -->
-  </PropertyGroup> 
-  
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+  </PropertyGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\..\..\iglib\igbase\IGLib.csproj" />

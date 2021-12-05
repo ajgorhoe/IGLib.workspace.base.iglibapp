@@ -8,8 +8,9 @@
     <TargetFrameworks>net5.0</TargetFrameworks>
     -->
 
-    <TargetFrameworks>net48</TargetFrameworks>
-    <OutputType>Exe</OutputType>
+	  <TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
+	  <UseWindowsForms>true</UseWindowsForms>
+	  <OutputType>Exe</OutputType>
     <OutputPath>../ApplicationBinaries/HashShell</OutputPath>
   </PropertyGroup>
 
@@ -41,11 +42,6 @@
     <None Update="HashShell\HashShell.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  
-  
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\iglib\igbase\IGLib.csproj" />

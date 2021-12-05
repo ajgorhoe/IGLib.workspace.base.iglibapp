@@ -30,11 +30,6 @@
     <FileVersion>1.9.1</FileVersion>
   </PropertyGroup>
   
-  
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\..\..\iglib\extensions\iglibext\IGLibExt.csproj" />
     <ProjectReference Include="..\..\..\iglib\extensions\igplot2d\plot2d\IGLibPlot2D.csproj" />
