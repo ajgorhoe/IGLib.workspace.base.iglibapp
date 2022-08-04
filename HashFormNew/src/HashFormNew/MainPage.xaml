@@ -13,8 +13,12 @@
 
         <StackLayout>
             <Label Text="Hash calculation" TextColor="Green" />
-            <Button Text="Info"
-                Command="{Binding LaunchInfoDialogCommand}" />
+            <Button Text="Info" 
+                    Clicked="OnButtonClicked"
+                    
+                    />
+            <!--
+            -->
         </StackLayout>
 
 
@@ -47,18 +51,41 @@
                 Source="logo.png"
                BackgroundColor="Transparent"/>
 
+            <!--
             <Entry Placeholder="Enter task"
                Text="{Binding Text}"
                Grid.Row="1"/>
+            -->
+            <Entry Placeholder="Enter task"
+               Text="NOT BOUND TEXT"
+               Grid.Row="1"/>
 
+
+            <!--
             <Button Text="Add"
                 Command="{Binding AddCommand}"
                 Grid.Row="1"
                 Grid.Column="1"/>
+            -->
+            <Button Text="Add"
+                Grid.Row="1"
+                Grid.Column="1"/>
 
+            
+            
+            
+            
+            <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
+                        SelectionMode="None">
+                
+            <!--
+                
             <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
                         ItemsSource="{Binding Items}"
                         SelectionMode="None">
+                
+                -->    
+                
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type x:String}">
                         <SwipeView>
