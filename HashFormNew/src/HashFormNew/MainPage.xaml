@@ -10,18 +10,22 @@
 
 
 
+        <Border Stroke="#C49B33"
+            StrokeThickness="4"
+            StrokeShape="RoundRectangle 40,0,0,40"
+            Background="Green"
+            Padding="16,8" >
 
-        <StackLayout>
-            <Label Text="Hash calculation" TextColor="Green" />
-            <Button Text="Info" 
+            <StackLayout Margin="20">
+                <Label Text="Hash calculation" TextColor="Green" />
+                <Button Text="Info" 
                     Clicked="OnButtonClicked"
                     
                     />
-            <!--
+                <!--
             -->
-        </StackLayout>
-
-
+            </StackLayout>
+        </Border>
 
 
         <StackLayout Margin="20">
