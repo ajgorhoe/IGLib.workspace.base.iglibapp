@@ -1,29 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp2.MainPage"
-             xmlns:viewmodel="clr-namespace:MauiApp2.ViewModel"
-             x:DataType="viewmodel:MainViewModel">
+             x:Class="IG.App.MainPage"
+             xmlns:viewmodel="clr-namespace:IG.App.ViewModel"
+             x:DataType="viewmodel:MainViewModel"
+             WidthRequest="800" HeightRequest="700"  
+             >
 
+    <!--
+             MaximumWidthRequest="1500"   MaximumHeightRequest="1000" 
+    -->
+    
     <StackLayout Margin="20">
-        <Label Text="Outer layout" />
+        <Label Text="Outer layout" ZIndex="4" />
 
+        <Border Stroke="Green"
+            StrokeThickness="2"
+            StrokeShape="RoundRectangle 5,5,5,5"
+            Background="White"
+            Padding="0"  ZIndex="4" >
 
-
-        <Border Stroke="#C49B33"
-            StrokeThickness="4"
-            StrokeShape="RoundRectangle 40,0,0,40"
-            Background="Green"
-            Padding="16,8" >
-
-            <StackLayout Margin="20">
-                <Label Text="Hash calculation" TextColor="Green" />
+            <StackLayout Margin="0">
+                <Label Text="Hash calculation" TextColor="Blue" BackgroundColor="Yellow" 
+                       
+                       ZIndex="1" HorizontalTextAlignment="Start"  />
                 <Button Text="Info" 
                     Clicked="OnButtonClicked"
-                    
-                    />
-                <!--
-            -->
+                        WidthRequest="60"
+                        HorizontalOptions="StartAndExpand"
+                    /> 
             </StackLayout>
         </Border>
 
@@ -44,6 +49,8 @@
             <BoxView Color="Purple"
                  HeightRequest="40" />
         </StackLayout>
+        
+        <!--
 
         <Grid RowDefinitions="100, Auto, *"
           ColumnDefinitions=".75*, .25*"
@@ -55,22 +62,13 @@
                 Source="logo.png"
                BackgroundColor="Transparent"/>
 
-            <!--
-            <Entry Placeholder="Enter task"
-               Text="{Binding Text}"
-               Grid.Row="1"/>
-            -->
+           
             <Entry Placeholder="Enter task"
                Text="NOT BOUND TEXT"
                Grid.Row="1"/>
 
 
-            <!--
-            <Button Text="Add"
-                Command="{Binding AddCommand}"
-                Grid.Row="1"
-                Grid.Column="1"/>
-            -->
+            
             <Button Text="Add"
                 Grid.Row="1"
                 Grid.Column="1"/>
@@ -82,13 +80,7 @@
             <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
                         SelectionMode="None">
                 
-            <!--
-                
-            <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Items}"
-                        SelectionMode="None">
-                
-                -->    
+            
                 
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type x:String}">
@@ -121,6 +113,7 @@
 
         </Grid>
 
+        -->
 
     </StackLayout>
 

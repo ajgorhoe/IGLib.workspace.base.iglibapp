@@ -1,4 +1,4 @@
-﻿namespace MauiApp2;
+﻿namespace IG.App;
 
 public partial class AppShell : Shell
 {

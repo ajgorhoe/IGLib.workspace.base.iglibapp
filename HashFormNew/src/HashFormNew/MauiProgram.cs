@@ -1,6 +1,6 @@
-﻿using MauiApp2.ViewModel;
+﻿using IG.App.ViewModel;
 
-namespace MauiApp2;
+namespace IG.App;
 
 public static class MauiProgram
 {

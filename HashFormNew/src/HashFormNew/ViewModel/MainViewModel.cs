@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace MauiApp2.ViewModel;
+namespace IG.App.ViewModel;
 
 public partial class MainViewModel : 
     ObservableObject
