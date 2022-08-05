@@ -4,35 +4,115 @@
              x:Class="IG.App.MainPage"
              xmlns:viewmodel="clr-namespace:IG.App.ViewModel"
              x:DataType="viewmodel:MainViewModel"
-             WidthRequest="800" HeightRequest="700"  
              >
 
     <!--
              MaximumWidthRequest="1500"   MaximumHeightRequest="1000" 
+             WidthRequest="800" HeightRequest="700"  
     -->
     
-    <StackLayout Margin="20">
-        <Label Text="Outer layout" ZIndex="4" />
+    <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"  Margin="20">
+        <Label Text="Outer layout" ZIndex="4"
+               HorizontalOptions="Fill" VerticalOptions="Start" />
 
-        <Border Stroke="Green"
-            StrokeThickness="2"
-            StrokeShape="RoundRectangle 5,5,5,5"
-            Background="White"
-            Padding="0"  ZIndex="4" >
+        <Border HorizontalOptions="Fill" VerticalOptions="Fill" 
+                Stroke="Green"
+                StrokeThickness="2"
+                StrokeShape="RoundRectangle 5,5,5,5"
+                Background="White"
+                Padding="10 5 10 5"  ZIndex="4" >
 
-            <StackLayout Margin="0">
+            <VerticalStackLayout Margin="0">
                 <Label Text="Hash calculation" TextColor="Blue" BackgroundColor="Yellow" 
-                       
-                       ZIndex="1" HorizontalTextAlignment="Start"  />
+                       HorizontalOptions="Start"  HorizontalTextAlignment="Start"
+                       ZIndex="1"  />
                 <Button Text="Info" 
                     Clicked="OnButtonClicked"
                         WidthRequest="60"
                         HorizontalOptions="StartAndExpand"
-                    /> 
-            </StackLayout>
+                    />
+
+                <Border HorizontalOptions="Fill" VerticalOptions="Fill" Stroke="Red" StrokeThickness="1">
+                
+                <Grid Margin="0" HorizontalOptions="Fill">
+
+                        <Border Stroke="Black" Margin="2">
+                            <HorizontalStackLayout HorizontalOptions="Start">
+                                <RadioButton Content="Files" HorizontalOptions="Start" />
+                                <RadioButton Content="Text"  HorizontalOptions="Start" />
+                            </HorizontalStackLayout>
+                        </Border>
+
+                        <Border Stroke="Aqua" Margin="2">
+                            <HorizontalStackLayout HorizontalOptions="End" >
+                                <Button Text="Help" HorizontalOptions="End" />
+                                <Button Text="About" />
+                                <Rectangle Fill="Green" HeightRequest="30"
+                  WidthRequest="30" />
+                                <Button Text="TestButton" />
+                            </HorizontalStackLayout>
+                        </Border>
+
+
+                    </Grid>
+                </Border>
+
+                <Grid HorizontalOptions="Fill" RowDefinitions="*" ColumnDefinitions="1*, 5*, 2*" >
+
+                    
+                    <Label Text="File: " Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <Entry Text="Instead of entry"  Grid.Row="0" Grid.Column="1"
+                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
+                    <Label Text="Browse" Grid.Row="0" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="End" Padding="10, 0, 0, 0"></Label>
+                    
+                </Grid>
+
+
+
+                <Grid HorizontalOptions="Fill" RowDefinitions="1*, 1*, 1*, 1*" 
+                      ColumnDefinitions="0.7*, 0.5*, 5*, *"  >
+
+
+                    <Label Grid.Row="0" Grid.Column="0" Text="MD5: " HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
+                    <Entry Grid.Row="0" Grid.Column="2" Text="File PathXX"
+                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
+                    <Button Grid.Row="0" Grid.Column="3" Text="Copy MD5" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
+                   
+                    <Label Grid.Row="1" Grid.Column="0" Text="SHA-1: " HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
+                    <Entry Grid.Row="1" Grid.Column="2" Text="File PathXX"
+                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
+                    <Button Grid.Row="1" Grid.Column="3" Text="Coy SHA-1" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
+                   
+                    <Label Grid.Row="2" Grid.Column="0" Text="SHA-256: " HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
+                    <Entry Grid.Row="2" Grid.Column="2" Text="File PathXX"
+                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
+                    <Button Grid.Row="2" Grid.Column="3" Text="Coy SHA-256" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
+                   
+                    <Label Grid.Row="3" Grid.Column="0" Text="SHA-256: " HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
+                    <Entry Grid.Row="3" Grid.Column="2" Text="File PathXX"
+                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
+                    <Button Grid.Row="3" Grid.Column="3" Text="SHA-512" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
+                    
+                </Grid>
+
+                <Label Text="File Content Preview:" TextColor="Blue" Padding="0, 5, 0, 0"></Label>
+
+                <Border Stroke="LightBlue" >
+                    <Editor Text="Text goes here." HorizontalOptions="Fill" VerticalOptions="Fill" HeightRequest="100"  />
+                </Border>
+                
+                <BoxView HorizontalOptions="Fill" HeightRequest="20" />
+
+            </VerticalStackLayout>
+            
         </Border>
 
 
+        <!--
         <StackLayout Margin="20">
             <Label Text="Primary colors" />
             <BoxView Color="Red"
@@ -49,6 +129,8 @@
             <BoxView Color="Purple"
                  HeightRequest="40" />
         </StackLayout>
+        -->
+        
         
         <!--
 
