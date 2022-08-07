@@ -1,17 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows.Input;
 
 namespace IG.App.ViewModel;
 
-public partial class MainViewModel : 
+public partial class MainViewModel :
     ObservableObject
-    //,
-    //INotifyPropertyChanged
+//,
+//INotifyPropertyChanged
 {
 
 
@@ -29,7 +31,7 @@ public partial class MainViewModel :
 #else
         IsDebugMode = false;
 #endif
-        IsDebugInfoVisible = IsDebugMode? true: false;
+        IsDebugInfoVisible = IsDebugMode ? true : false;
 
         LaunchInfoDialogCommand = new Command(
             execute: () =>
@@ -60,7 +62,7 @@ public partial class MainViewModel :
             {
                 if (IsDebugMode)
                 {
-                    _isDebugInfoVisible = value; 
+                    _isDebugInfoVisible = value;
                     OnPropertyChanged(nameof(IsDebugInfoVisible));
                 }
                 else
@@ -93,6 +95,10 @@ public partial class MainViewModel :
                         IsInputDataSufficient = true;
                     }
                 }
+                if (IsFileHashing)
+                {
+                    TextToHash = GetFilePreview(FilePath);
+                }
                 OnPropertyChanged(nameof(FilePath));
                 OnPropertyChanged(nameof(DirectoryPath));
             }
@@ -101,7 +107,7 @@ public partial class MainViewModel :
 
     public string DirectoryPath
     {
-        get =>string.IsNullOrEmpty(FilePath) ? null: Path.GetDirectoryName(FilePath);
+        get => string.IsNullOrEmpty(FilePath) ? null : Path.GetDirectoryName(FilePath);
     }
 
     private bool _isFileHashing = true;
@@ -111,15 +117,89 @@ public partial class MainViewModel :
         get => _isFileHashing;
         set
         {
-            if (value!=_isFileHashing)
+            if (value != _isFileHashing)
             {
                 _isFileHashing = value;
                 OnPropertyChanged(nameof(IsFileHashing));
                 OnPropertyChanged(nameof(IsTextHashing));
                 OnPropertyChanged(nameof(TextEntryLabelText));
+                if (_isFileHashing)
+                {
+                    TextToHash = GetFilePreview(FilePath);
+                } else
+                {
+                    TextToHash = null; // LastTextToHashWhenTextHashing;
+                }
+            }
+        }
+    }
+
+
+    private int _maxLines = 40;
+    private int _maxCharacters = 2000;
+    protected string GetFilePreview(string filePath)
+    {
+        if (string.IsNullOrEmpty(filePath))
+        {
+            return null;
+        }
+        if (!File.Exists(filePath))
+        {
+            return null;
+        }
+        bool isProbablyTextFile = false;
+        // Read part of the file and sew whether the file could be a text file;
+        // This is difficult to establish out in general, but we will base our estimation on the number of newlines:
+        int numChecked = _maxCharacters;
+
+        using (FileStream fileStream = File.OpenRead(filePath))
+        {
+            var rawData = new byte[numChecked];
+            var rawLength = fileStream.Read(rawData, 0, rawData.Length);
+            // Count newlines: 
+            int numNewLines = 0;
+            for (int i = 0; i < rawLength; ++i)
+            {
+                if (rawData[i] == '\n')
+                {
+                    ++numNewLines;
+                }
+            }
+            if (numNewLines > rawLength / 300)
+            {
+                isProbablyTextFile |= true;
+            }
+            if (!isProbablyTextFile)
+            {
+                string str = Encoding.Default.GetString(rawData, 0, rawLength);
+                if (rawLength < _maxLines)
+                {
+                    return str;
+                }
+                else
+                {
+                    return str + Environment.NewLine + "...";
+                }
 
             }
         }
+        // Probably a string file, try to read a certain number of lines: 
+        StringBuilder sb = new StringBuilder();
+        int numLinesRead = 0;
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null && numLinesRead <_maxLines)
+            {
+                ++numLinesRead;
+                sb.AppendLine(line);
+            }
+        }
+        if (numLinesRead >= _maxLines)
+        {
+            sb.AppendLine(Environment.NewLine + "...");
+        }
+        return sb.ToString();
     }
 
     public bool IsTextHashing
@@ -135,7 +215,7 @@ public partial class MainViewModel :
         get => _calculateMD5;
         set
         {
-            if (value!=_calculateMD5)
+            if (value != _calculateMD5)
             {
                 _calculateMD5 = value;
                 OnPropertyChanged(nameof(CalculateMD5));
@@ -143,7 +223,7 @@ public partial class MainViewModel :
         }
     }
 
-    
+
 
     private bool _calculateSHA1 = true;
 
@@ -152,7 +232,7 @@ public partial class MainViewModel :
         get => _calculateSHA1;
         set
         {
-            if (value!=_calculateSHA1)
+            if (value != _calculateSHA1)
             {
                 _calculateSHA1 = value;
                 OnPropertyChanged(nameof(CalculateSHA1));
@@ -167,7 +247,7 @@ public partial class MainViewModel :
         get => _calculateSHA256;
         set
         {
-            if (value!= _calculateSHA256)
+            if (value != _calculateSHA256)
             {
                 _calculateSHA256 = value;
                 OnPropertyChanged(nameof(CalculateSHA256));
@@ -200,7 +280,7 @@ public partial class MainViewModel :
         get => _isHashesOutdated;
         set
         {
-            if (value!=_isHashesOutdated)
+            if (value != _isHashesOutdated)
             {
                 _isHashesOutdated = value;
                 OnPropertyChanged(nameof(IsHashesOutdated));
@@ -216,7 +296,7 @@ public partial class MainViewModel :
         get => _isCalculating;
         set
         {
-            if (value!=_isCalculating)
+            if (value != _isCalculating)
             {
                 if (value == true && !IsHashesOutdated)
                 {
@@ -232,7 +312,7 @@ public partial class MainViewModel :
 
 
     private string _hashValueMD5 = null;
-    
+
     public string HashValueMD5
     {
         get => _hashValueMD5;
@@ -247,7 +327,7 @@ public partial class MainViewModel :
     }
 
     private string _hashValueSHA1 = null;
-    
+
     public string HashValueSHA1
     {
         get => _hashValueSHA1;
@@ -332,7 +412,7 @@ public partial class MainViewModel :
                     IsHashesOutdated = true;
                 }
             }
-                
+
         }
     }
 
@@ -344,13 +424,14 @@ public partial class MainViewModel :
     }
 
     private string _textEntryLabelText = null;
-    
+
     public string TextEntryLabelText
     {
         get => IsFileHashing ? "File Content Preview:" : "Enter Hashed Text Below:";
     }
 
     private string _textToHash = null;
+
 
     public string TextToHash
     {
@@ -365,11 +446,30 @@ public partial class MainViewModel :
                 {
                     InvalidateHashValues();
                     IsInputDataSufficient = !string.IsNullOrEmpty(_textToHash);
+                    LastTextToHashWhenTextHashing = _textToHash;
                 }
 
             }
         }
     }
+
+    protected string LastTextToHashWhenFileHashing { get; set; } = null;
+
+    protected string LastTextToHashWhenTextHashing { get; set; } = null;
+
+    protected void OnFilePropertiesChanged()
+    {
+        if (IsFileHashing)
+        {
+            // ToDo: put file preview into TextToHash!
+        } else
+        {
+
+        }
+    }
+
+
+
 
 
 

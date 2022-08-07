@@ -26,8 +26,13 @@ public partial class MainPage : ContentPage
             
         };
         var result = await FilePicker.Default.PickAsync(options);
-        ViewModel.FilePath = result.FullPath;
-        
+        try
+        {
+            ViewModel.FilePath = result.FullPath;
+        }
+        catch (Exception)
+        {
+        }
     }
 
 
