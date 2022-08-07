@@ -42,11 +42,26 @@ public partial class MainViewModel :
                 ((Command)LaunchInfoDialogCommand).ChangeCanExecute();
             },
             // ToDo: replace criterion below.
-            canExecute: () => Number < 20000.0
+            canExecute: () => true
         );
 
     }
 
+
+    private string _droppedTextValue = null;
+
+    public string DroppedTextValue
+    {
+        get => _droppedTextValue;
+        set 
+        {
+            if (value != _droppedTextValue)
+            {
+                _droppedTextValue = value;
+                OnPropertyChanged(nameof(DroppedTextValue));
+            }
+        }
+    }
 
     private int _numEtries = 0;
 
@@ -56,8 +71,11 @@ public partial class MainViewModel :
         get => _numEtries;
         set 
         {
-            _numEtries = value;
-            OnPropertyChanged(nameof(NumEntries));
+            if (value != _numEtries)
+            {
+                _numEtries = value;
+                OnPropertyChanged(nameof(NumEntries));
+            }
         }
     }
 
@@ -87,8 +105,6 @@ public partial class MainViewModel :
     }
 
     public ICommand LaunchInfoDialogCommand { get; private set; }
-
-    private int Number { get; set; } = 1;
 
 
     private string _filePath;

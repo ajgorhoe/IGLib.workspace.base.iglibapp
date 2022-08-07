@@ -37,23 +37,23 @@ public partial class MainPage : ContentPage
     }
 
 
-    /// <summary>Just to prevent compiiler warinings in async methods that do very little.</summary>
-    /// <param name="callItself"></param>
-    /// <returns></returns>
-    private async Task<bool> DummyAsync(bool callItself = false)
-    {
-        if (callItself)
-        {
-            return await DummyAsync(false);
-        }
-        return true;
-    }
+    ///// <summary>Just to prevent compiiler warinings in async methods that do very little.</summary>
+    ///// <param name="callItself"></param>
+    ///// <returns></returns>
+    //private async Task<bool> DummyAsync(bool callItself = false)
+    //{
+    //    if (callItself)
+    //    {
+    //        return await DummyAsync(false);
+    //    }
+    //    return true;
+    //}
+
+
 
     Brush _fileEntryInitialBackground = Color.FromRgb(255, 255, 255);
 
     string _storedFilePath = null;
-
-
 
     /// <summary>Indicates visually on the <see cref="FileEntry"/> control that something is dragged over,
     /// by changing background color.
@@ -64,11 +64,12 @@ public partial class MainPage : ContentPage
         {
             if (ViewModel.NumEntries == 0)
             {
+                // Update the DragOver counter:
                 ++ViewModel.NumEntries;
-                _storedFilePath = ViewModel.FilePath;
-                ViewModel.FilePath = "Drag Enter.";
-                // _fileEntryInitialBackground = this.FileEntry.Background;
                 eventArgs.AcceptedOperation = DataPackageOperation.Copy;
+                _storedFilePath = ViewModel.FilePath;
+                ViewModel.FilePath = "<< Drop here to update file path >>";
+                // _fileEntryInitialBackground = this.FileEntry.Background;
                 // this.FileEntry.Background = Color.Parse("Orange");
             }
         }
@@ -80,6 +81,7 @@ public partial class MainPage : ContentPage
     {
         try
         {
+            // reset the DragOver counter:
             ViewModel.NumEntries = 0;
             if (ViewModel.NumEntries == 0)
             {
@@ -92,18 +94,29 @@ public partial class MainPage : ContentPage
         // await DummyAsync();
     }
 
-    async void OnDropFileEntry(object sender, DropEventArgs eventArgs)
+    async void OnDropFileEntry(object sender, DropEventArgs e)
     {
-        this.FileEntry.Background = _fileEntryInitialBackground;
-        this.FileEntry.Text = await eventArgs.Data.GetTextAsync();
-        await DummyAsync();
+        try
+        {
+            // reset the DragOver counter:
+            ViewModel.NumEntries = 0;
+            if (ViewModel.NumEntries == 0)
+            {
+                _storedFilePath = null;
+                //this.FileEntry.Background = _fileEntryInitialBackground;
+            }
+        }
+        catch { }
+        try
+        {
+            // ViewModel.FilePath
+            ViewModel.DroppedTextValue = await e.Data.GetTextAsync();
+        }
+        catch { }
+        // await DummyAsync();
     }
 
 
-    //async void OnButtonClicked(object sender, EventArgs args)
-    //{
-    //    await DisplayAlert("Info", "New HashForm application, 2022", "OK");
-    //}
 
 
     async void OnButtonHelpClicked(object sender, EventArgs args)
