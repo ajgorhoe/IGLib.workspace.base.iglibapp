@@ -26,12 +26,21 @@
 
                 <Grid  HorizontalOptions="Fill" Margin="0">
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="Hash calculation" TextColor="Blue"  
+                    <Label Grid.Row="0" Grid.Column="0" Text="Hash Generation" 
+                       TextColor="Blue"  
                        HorizontalOptions="Start"  HorizontalTextAlignment="Start"
                        VerticalOptions="Start"
                        ZIndex="1"  />
                     <HorizontalStackLayout Spacing="4" HorizontalOptions="End">
+                        <Label Text="Debug Info:" TextColor="LightBlue"
+                            IsVisible="{Binding IsDebugMode}"
+                            HorizontalOptions="End" VerticalOptions="Center" />
+                        <CheckBox  IsChecked="{Binding IsDebugInfoVisible}"  Color="LightBlue" 
+                            IsVisible="{Binding IsDebugMode}"    HorizontalOptions="End" 
+                            Margin="4, 0, 8, 0"
+                            />
                     </HorizontalStackLayout>
+
                 </Grid>
 
                 <!--
@@ -45,16 +54,12 @@
                         <Border Stroke="Black" Margin="2" IsEnabled="false">
                         </Border>
                     -->
-                    <HorizontalStackLayout HorizontalOptions="Start">
-                        <RadioButton Content="Files" IsChecked="True" HorizontalOptions="Start" />
-                        <RadioButton Content="Text"  HorizontalOptions="Start" />
+                    <HorizontalStackLayout HorizontalOptions="Start" Spacing="0">
+                        <RadioButton IsChecked="{Binding IsFileHashing}" Content="Files" HorizontalOptions="Start" />
+                        <RadioButton IsChecked="{Binding IsTextHashing}" Content="Text"  HorizontalOptions="Start" />
                     </HorizontalStackLayout>
 
-                    <!--
-                        <Border Stroke="Aqua" Margin="2" IsEnabled="false">
-                        </Border>
-                    -->
-                    <HorizontalStackLayout HorizontalOptions="End" >
+                    <HorizontalStackLayout HorizontalOptions="End" Spacing="4"  >
                         <Button x:Name="ButtonForContext" Text="Help" 
                                     Clicked="OnButtonHelpClicked"
                                     HorizontalOptions="End" />
@@ -101,7 +106,8 @@
                       ColumnSpacing="4" >
 
 
-                    <Label Text="File: " Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <Label Text="File: " Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" 
+                           VerticalOptions="Center"></Label>
                     <Entry Placeholder="File Path"  Grid.Row="0" Grid.Column="1"
                            HorizontalOptions="Fill" VerticalOptions="End"
                            Text="{Binding FilePath}"
@@ -110,7 +116,32 @@
                             Grid.Row="0" Grid.Column="2" HorizontalOptions="End" VerticalOptions="End" Margin="10, 0, 0, 0"></Button>
 
                 </Grid>
-                <Label Text="Directory: "></Label><Label Text="{Binding DirectoryPath}" />
+                <Border IsVisible="{Binding IsDebugInfoVisible}" HorizontalOptions="Fill"
+                    Stroke="LightBlue"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 5,5,5,5"
+                    Background="White"
+                    Padding="10, 5, 10, 5"  ZIndex="4" >
+                    <VerticalStackLayout HorizontalOptions="Fill">
+                        <Label Text="Debug info: " HorizontalOptions="Start" TextDecorations="Underline" />
+                        <HorizontalStackLayout Spacing="4" HorizontalOptions="Fill" >
+                            <Label Text="Directory: " HorizontalOptions="Start" ></Label>
+                            <Label Text="{Binding DirectoryPath}"  HorizontalOptions="Start"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="File hashing: "/>
+                            <Label Text="{Binding IsFileHashing}" />
+                            <Label Text="Text hashing: "/>
+                            <Label Text="{Binding IsTextHashing}" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="IsInputDataSufficient: "/> <Label Text="{Binding IsInputDataSufficient}" />
+                            <Label Text="IsHashesOutdated: "/> <Label Text="{Binding IsHashesOutdated}" />
+                            <Label Text="IsCalculationButtonsEnabled: "/> <Label Text="{Binding IsCalculationButtonsEnabled}" />
+                            <Label Text="IsCalculating: "/> <Label Text="{Binding IsCalculating} "/>
+                       </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
 
 
 
@@ -120,44 +151,44 @@
                       >
 
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="MD5: " HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <Label Grid.Row="0" Grid.Column="0" Text="MD5: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
                     <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
                     <Border Grid.Row="0" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
-                        <Label Text="[[Calculated MD5 value]]" IsEnabled="True"
+                        <Label Text="{Binding HashValueMD5}" IsEnabled="True"
                            HorizontalOptions="Fill" VerticalOptions="Center"></Label>
                     </Border>
                     <Button Grid.Row="0" Grid.Column="3" Text="Copy MD5" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
-                   
-                    <Label Grid.Row="1" Grid.Column="0" Text="SHA-1: " HorizontalOptions="Start" VerticalOptions="End"></Label>
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="SHA-1: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
                     <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
                     <Border Grid.Row="1" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
-                        <Label Text="[[Calculated SHA-1 value]]" IsEnabled="True"
+                        <Label  Text="{Binding HashValueSHA1}" IsEnabled="True"
                            HorizontalOptions="Fill" VerticalOptions="Center"></Label>
                     </Border>
-                    <Button Grid.Row="1" Grid.Column="3" Text="Coy SHA-1" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
-                   
-                    <Label Grid.Row="2" Grid.Column="0" Text="SHA-256: " HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <Button Grid.Row="1" Grid.Column="3" Text="Copy SHA-1" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="SHA-256: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
                     <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
                     <Border Grid.Row="2" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
-                        <Label Text="[[Calculated SHA-256 value]]" IsEnabled="True"
+                        <Label Text="{Binding HashValueSHA256}" IsEnabled="True"
                            HorizontalOptions="Fill" VerticalOptions="Center"></Label>
                     </Border>
-                    <Button Grid.Row="2" Grid.Column="3" Text="Coy SHA-256" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
-                   
-                    <Label Grid.Row="3" Grid.Column="0" Text="SHA-256: " HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <Button Grid.Row="2" Grid.Column="3" Text="Copy SHA-256" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="SHA-512: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
                     <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="False" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
                     <Border Grid.Row="3" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
-                        <Label Text="[[Calculated SHA-512 value]]" IsEnabled="True"
+                        <Label Text="{Binding HashValueSHA256}" IsEnabled="True"
                            HorizontalOptions="Fill" VerticalOptions="Center"></Label>
                     </Border>
-                    <Button Grid.Row="3" Grid.Column="3" Text="SHA-512" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
+                    <Button Grid.Row="3" Grid.Column="3" Text="Copy SHA-512" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
                     
                 </Grid>
 
-                <Label Text="File Content Preview:" TextColor="Blue" Padding="0, 5, 0, 0"></Label>
+                <Label Text="{Binding TextEntryLabelText}" TextColor="Blue" Padding="0, 5, 0, 0"></Label>
 
                 <Border Stroke="LightBlue" >
-                    <Editor Placeholder="Text to be hashed" HorizontalOptions="Fill" VerticalOptions="Fill" HeightRequest="100"  />
+                    <Editor Text="{Binding TextToHash}" Placeholder="Text to be hashed" HorizontalOptions="Fill" VerticalOptions="Fill" HeightRequest="100"  />
                 </Border>
                 
                 <BoxView HorizontalOptions="Fill" HeightRequest="20" />

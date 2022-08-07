@@ -6,8 +6,10 @@
     xmlns:local="clr-namespace:IG.App"
     Shell.FlyoutBehavior="Disabled">
     <ShellContent
-        Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+    <!--
+        Title="Home"
+    -->
 
 </Shell>

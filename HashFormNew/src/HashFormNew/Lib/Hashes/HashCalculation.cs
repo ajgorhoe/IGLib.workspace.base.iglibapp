@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Services.Maps;
 using System.Security.Cryptography;
+using System.Text;
+using Microsoft.Maui.Devices.Sensors;
 
 namespace IG.Crypto
 {
@@ -73,6 +75,9 @@ namespace IG.Crypto
             hashCalculator.SetHashAlgorithm(SHA256Hash, System.Security.Cryptography.SHA256.Create());
             hashCalculator.SetHashAlgorithm(SHA384Hash, System.Security.Cryptography.SHA384.Create());
             hashCalculator.SetHashAlgorithm(SHA512Hash, System.Security.Cryptography.SHA512.Create());
+
+
+
         }
 
 
@@ -95,6 +100,29 @@ namespace IG.Crypto
             return HashToHexString(CalculateHash(hashName, buffer));
         }
 
+
+
+
+        public virtual byte[] CalculateTextHash(string hashName, string text)
+        {
+            return CalculateTextHash(hashName, text, Encoding.UTF8);
+        }
+        public virtual byte[] CalculateTextHash(string hashName, string text, Encoding encoding)
+        {
+            Byte[] bytes = Encoding.ASCII.GetBytes(text);
+            return CalculateHash(hashName, bytes);
+
+        }
+
+
+        public virtual string CalculateTextHashString(string hashName, string text)
+        {
+            return HashToHexString(CalculateTextHash(hashName, text));
+        }
+        public virtual string CalculateTextHashString(string hashName, string text, Encoding encoding)
+        {
+            return HashToHexString(CalculateTextHash(hashName, text, encoding));
+        }
 
 
     }

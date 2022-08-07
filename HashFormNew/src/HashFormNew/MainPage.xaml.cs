@@ -1,16 +1,17 @@
 ﻿using IG.App.ViewModel;
+using System.Diagnostics;
 
 namespace IG.App;
 
 public partial class MainPage : ContentPage
 {
 
-	public MainPage(MainViewModel vm)
-	{
-		InitializeComponent();
-		BindingContext = vm;
+    public MainPage(MainViewModel vm) : base()
+    {
+        InitializeComponent();
+        BindingContext = vm;
         ViewModel = vm;
-	}
+    }
 
 
     /// <summary>Referencr to the corresponding ViewModel.</summary>

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -23,6 +24,13 @@ public partial class MainViewModel :
 
     public MainViewModel()
     {
+#if DEBUG
+        IsDebugMode = true;
+#else
+        IsDebugMode = false;
+#endif
+        IsDebugInfoVisible = IsDebugMode? true: false;
+
         LaunchInfoDialogCommand = new Command(
             execute: () =>
             {
@@ -36,6 +44,33 @@ public partial class MainViewModel :
         );
 
     }
+
+
+    public bool IsDebugMode { get; init; }
+
+    private bool _isDebugInfoVisible = false;
+
+    /// <summary>If true then debug information will be visible on the view.
+    /// This is prevented when not in Debug mode.</summary>
+    public bool IsDebugInfoVisible
+    {
+        get => _isDebugInfoVisible;
+        set {
+            if (value != _isDebugInfoVisible)
+            {
+                if (IsDebugMode)
+                {
+                    _isDebugInfoVisible = value; 
+                    OnPropertyChanged(nameof(IsDebugInfoVisible));
+                }
+                else
+                {
+                    IsDebugInfoVisible = false;
+                }
+            }
+        }
+    }
+
     public ICommand LaunchInfoDialogCommand { get; private set; }
 
     private int Number { get; set; } = 1;
@@ -51,6 +86,13 @@ public partial class MainViewModel :
             {
                 _filePath = value;
 
+                if (!string.IsNullOrEmpty(value))
+                {
+                    if (IsFileHashing && File.Exists(value))
+                    {
+                        IsInputDataSufficient = true;
+                    }
+                }
                 OnPropertyChanged(nameof(FilePath));
                 OnPropertyChanged(nameof(DirectoryPath));
             }
@@ -62,7 +104,272 @@ public partial class MainViewModel :
         get =>string.IsNullOrEmpty(FilePath) ? null: Path.GetDirectoryName(FilePath);
     }
 
+    private bool _isFileHashing = true;
 
+    public bool IsFileHashing
+    {
+        get => _isFileHashing;
+        set
+        {
+            if (value!=_isFileHashing)
+            {
+                _isFileHashing = value;
+                OnPropertyChanged(nameof(IsFileHashing));
+                OnPropertyChanged(nameof(IsTextHashing));
+                OnPropertyChanged(nameof(TextEntryLabelText));
+
+            }
+        }
+    }
+
+    public bool IsTextHashing
+    {
+        get => !IsFileHashing;
+        set { IsFileHashing = !value; }
+    }
+
+    private bool _calculateMD5 = true;
+
+    public bool CalculateMD5
+    {
+        get => _calculateMD5;
+        set
+        {
+            if (value!=_calculateMD5)
+            {
+                _calculateMD5 = value;
+                OnPropertyChanged(nameof(CalculateMD5));
+            }
+        }
+    }
+
+    
+
+    private bool _calculateSHA1 = true;
+
+    public bool CalculateSHA1
+    {
+        get => _calculateSHA1;
+        set
+        {
+            if (value!=_calculateSHA1)
+            {
+                _calculateSHA1 = value;
+                OnPropertyChanged(nameof(CalculateSHA1));
+            }
+        }
+    }
+
+    private bool _calculateSHA256 = true;
+
+    public bool CalculateSHA256
+    {
+        get => _calculateSHA256;
+        set
+        {
+            if (value!= _calculateSHA256)
+            {
+                _calculateSHA256 = value;
+                OnPropertyChanged(nameof(CalculateSHA256));
+                if (value == true)
+                    IsHashesOutdated = true;
+            }
+        }
+    }
+
+    private bool _calculateSHA512 = false;
+
+    public bool CalculateSHA512
+    {
+        get => _calculateSHA512;
+        set
+        {
+            if (value != _calculateSHA512)
+            {
+                _calculateSHA512 = value;
+                OnPropertyChanged(nameof(CalculateSHA512));
+            }
+        }
+    }
+
+
+    private bool _isHashesOutdated = false;
+
+    public bool IsHashesOutdated
+    {
+        get => _isHashesOutdated;
+        set
+        {
+            if (value!=_isHashesOutdated)
+            {
+                _isHashesOutdated = value;
+                OnPropertyChanged(nameof(IsHashesOutdated));
+            }
+        }
+    }
+
+    private bool _isCalculating = false;
+
+    /// <summary>Wheen changed to true, this also triggers actual calculation of hash values!</summary>
+    public bool IsCalculating
+    {
+        get => _isCalculating;
+        set
+        {
+            if (value!=_isCalculating)
+            {
+                if (value == true && !IsHashesOutdated)
+                {
+                    // Hashes are not outdated, no need to do calculation!
+                    return;
+                }
+                _isCalculating = value;
+                OnPropertyChanged(nameof(IsCalculating));
+                // ToDo: trigger calculation!
+            }
+        }
+    }
+
+
+    private string _hashValueMD5 = null;
+    
+    public string HashValueMD5
+    {
+        get => _hashValueMD5;
+        set
+        {
+            if (value != _hashValueMD5)
+            {
+                _hashValueMD5 = value;
+                OnPropertyChanged(nameof(HashValueMD5));
+            }
+        }
+    }
+
+    private string _hashValueSHA1 = null;
+    
+    public string HashValueSHA1
+    {
+        get => _hashValueSHA1;
+        set
+        {
+            if (value != _hashValueSHA1)
+            {
+                _hashValueSHA1 = value;
+                OnPropertyChanged(nameof(HashValueSHA1));
+            }
+        }
+    }
+
+
+    private string _hashValueSHA256 = null;
+
+    public string HashValueSHA256
+    {
+        get => _hashValueSHA256;
+        set
+        {
+            if (value != _hashValueSHA256)
+            {
+                _hashValueSHA256 = value;
+                OnPropertyChanged(nameof(HashValueSHA256));
+            }
+        }
+    }
+
+    private string _hashValueSHA512 = null;
+
+    public string HashValueSHA512
+    {
+        get => _hashValueSHA512;
+        set
+        {
+            if (value != _hashValueSHA512)
+            {
+                _hashValueSHA512 = value;
+                OnPropertyChanged(nameof(HashValueSHA512));
+            }
+        }
+    }
+
+    protected virtual void InvalidateHashValues()
+    {
+        HashValueMD5 = null;
+        HashValueSHA1 = null;
+        HashValueSHA256 = null;
+        HashValueSHA512 = null;
+        IsHashesOutdated = true;
+    }
+
+    private bool _isInputDataSufficient = false;
+
+    public bool IsInputDataSufficient
+    {
+        get => _isInputDataSufficient;
+        set
+        {
+            if (value != _isInputDataSufficient)
+            {
+                if (value == true)
+                {
+                    // Double check that assignment of true is correct:
+                    if (IsFileHashing)
+                    {
+                        if (string.IsNullOrEmpty(FilePath))
+                            return;
+                        if (!File.Exists(FilePath))
+                            return;
+                    } else if (IsTextHashing)
+                    {
+                        if (string.IsNullOrEmpty(TextToHash))
+                            return;
+                    }
+                }
+                _isInputDataSufficient = value;
+                OnPropertyChanged(nameof(IsInputDataSufficient));
+                if (value)
+                {
+                    IsHashesOutdated = true;
+                }
+            }
+                
+        }
+    }
+
+    // private bool _isCalculationButtonsEnabled = false;
+
+    public bool IsCalculationButtonsEnabled
+    {
+        get => IsInputDataSufficient && IsHashesOutdated && !IsCalculating;
+    }
+
+    private string _textEntryLabelText = null;
+    
+    public string TextEntryLabelText
+    {
+        get => IsFileHashing ? "File Content Preview:" : "Enter Hashed Text Below:";
+    }
+
+    private string _textToHash = null;
+
+    public string TextToHash
+    {
+        get => _textToHash;
+        set
+        {
+            if (value != _textToHash)
+            {
+                _textToHash = value;
+                OnPropertyChanged(nameof(TextToHash));
+                if (IsTextHashing)
+                {
+                    InvalidateHashValues();
+                    IsInputDataSufficient = !string.IsNullOrEmpty(_textToHash);
+                }
+
+            }
+        }
+    }
 
 
 
