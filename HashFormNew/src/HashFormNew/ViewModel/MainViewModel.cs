@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace IG.App.ViewModel;
@@ -13,41 +14,57 @@ public partial class MainViewModel :
 {
 
 
+    // Defined in ObservableObject:
+    // public event PropertyChangedEventHandler PropertyChanged;
+    // public void OnPropertyChanged(striing)
+
+
     // event PropertyChangedEventHandler PropertyChanged;
 
-    private PropertyChangedEventHandler _propertyChanged;
+    public MainViewModel()
+    {
+        LaunchInfoDialogCommand = new Command(
+            execute: () =>
+            {
+                // Do the stuff...
+                // ToDo: implement command body!
+                // 
+                ((Command)LaunchInfoDialogCommand).ChangeCanExecute();
+            },
+            // ToDo: replace criterion below.
+            canExecute: () => Number < 20000.0
+        );
 
-    //event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
-    //{
-    //    add
-    //    {
-    //        _propertyChanged += value;
-    //    }
-    //    remove
-    //    {
-    //        _propertyChanged -= value;
-    //    }
-    //}
+    }
+    public ICommand LaunchInfoDialogCommand { get; private set; }
+
+    private int Number { get; set; } = 1;
+
+
+    private string _filePath;
+    public string FilePath
+    {
+        get => _filePath;
+        set
+        {
+            if (_filePath != value)
+            {
+                _filePath = value;
+
+                OnPropertyChanged(nameof(FilePath));
+                OnPropertyChanged(nameof(DirectoryPath));
+            }
+        }
+    }
+
+    public string DirectoryPath
+    {
+        get =>string.IsNullOrEmpty(FilePath) ? null: Path.GetDirectoryName(FilePath);
+    }
 
 
 
-    //public MainViewModel()
-    //{
-    //    LaunchInfoDialogCommand = new Command(
-    //        execute: () =>
-    //        {
-    //            // Do the stuff...
-    //            // ToDo: implement command body!
-    //            // 
-    //            ((Command)LaunchInfoDialogCommand).ChangeCanExecute();
-    //        },
-    //        // ToDo: replace criterion below.
-    //        canExecute: () => Number < 20000.0
-    //    );
 
-    //}
-
-    //public ICommand LaunchInfoDialogCommand { get; private set; }
 
     //double number = 1;
 

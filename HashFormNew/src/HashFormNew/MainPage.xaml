@@ -12,89 +12,144 @@
     -->
     
     <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"  Margin="20">
-        <Label Text="Outer layout" ZIndex="4"
-               HorizontalOptions="Fill" VerticalOptions="Start" />
+        <Label Text="Outer layout" ZIndex="2"
+               HorizontalOptions="Fill" VerticalOptions="Fill" />
 
         <Border HorizontalOptions="Fill" VerticalOptions="Fill" 
                 Stroke="Green"
                 StrokeThickness="2"
                 StrokeShape="RoundRectangle 5,5,5,5"
                 Background="White"
-                Padding="10 5 10 5"  ZIndex="4" >
+                Padding="10, 5, 10, 5"  ZIndex="4" >
 
-            <VerticalStackLayout Margin="0">
-                <Label Text="Hash calculation" TextColor="Blue" BackgroundColor="Yellow" 
+            <VerticalStackLayout Spacing="4" Margin="0">
+
+                <Grid  HorizontalOptions="Fill" Margin="0">
+
+                    <Label Grid.Row="0" Grid.Column="0" Text="Hash calculation" TextColor="Blue"  
                        HorizontalOptions="Start"  HorizontalTextAlignment="Start"
+                       VerticalOptions="Start"
                        ZIndex="1"  />
-                <Button Text="Info" 
-                    Clicked="OnButtonClicked"
-                        WidthRequest="60"
-                        HorizontalOptions="StartAndExpand"
-                    />
+                    <HorizontalStackLayout Spacing="4" HorizontalOptions="End">
+                    </HorizontalStackLayout>
+                </Grid>
 
-                <Border HorizontalOptions="Fill" VerticalOptions="Fill" Stroke="Red" StrokeThickness="1">
-                
+                <!--
+                <Border HorizontalOptions="Fill" VerticalOptions="Fill" Stroke="Red" StrokeThickness="1" IsVisible="True">
+                </Border>
+                -->
+
                 <Grid Margin="0" HorizontalOptions="Fill">
 
-                        <Border Stroke="Black" Margin="2">
-                            <HorizontalStackLayout HorizontalOptions="Start">
-                                <RadioButton Content="Files" HorizontalOptions="Start" />
-                                <RadioButton Content="Text"  HorizontalOptions="Start" />
-                            </HorizontalStackLayout>
+                    <!--
+                        <Border Stroke="Black" Margin="2" IsEnabled="false">
                         </Border>
+                    -->
+                    <HorizontalStackLayout HorizontalOptions="Start">
+                        <RadioButton Content="Files" IsChecked="True" HorizontalOptions="Start" />
+                        <RadioButton Content="Text"  HorizontalOptions="Start" />
+                    </HorizontalStackLayout>
 
-                        <Border Stroke="Aqua" Margin="2">
-                            <HorizontalStackLayout HorizontalOptions="End" >
-                                <Button Text="Help" HorizontalOptions="End" />
-                                <Button Text="About" />
-                                <Rectangle Fill="Green" HeightRequest="30"
-                  WidthRequest="30" />
-                                <Button Text="TestButton" />
-                            </HorizontalStackLayout>
+                    <!--
+                        <Border Stroke="Aqua" Margin="2" IsEnabled="false">
                         </Border>
+                    -->
+                    <HorizontalStackLayout HorizontalOptions="End" >
+                        <Button x:Name="ButtonForContext" Text="Help" 
+                                    Clicked="OnButtonHelpClicked"
+                                    HorizontalOptions="End" />
+                        <Button Text="About"
+                                    Clicked="OnButtonAboutClicked"
+                                    HorizontalOptions="End" />
 
 
-                    </Grid>
-                </Border>
+                        <Slider x:Name="WidthSlider"  Minimum="0" Maximum="360" Value="1" 
+                                WidthRequest="60"
+                                VerticalOptions="Center"
+                                
+                                />
+                        <Label 
+                            VerticalOptions="Center"
+                            Text="XXX"
+                            BindingContext="{x:Reference Name=WidthSlider}"
+                            />
+                        <!--
+                            Text="{Binding Path=Value, Converter={StaticResource IG.Lib.NumberToTextConverter}}"
+                            Rotation="{Binding Path=Value}"
+                        -->
 
-                <Grid HorizontalOptions="Fill" RowDefinitions="*" ColumnDefinitions="1*, 5*, 2*" >
 
-                    
-                    <Label Text="File: " Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="End"></Label>
-                    <Entry Text="Instead of entry"  Grid.Row="0" Grid.Column="1"
-                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
-                    <Label Text="Browse" Grid.Row="0" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="End" Padding="10, 0, 0, 0"></Label>
-                    
+                        <Rectangle x:Name="Rectangle1" Fill="Green" VerticalOptions="Fill" 
+                                   
+                                   WidthRequest="20"
+                                           />
+                        <!--
+                                
+                                WidthRequest="{Binding Value}" 
+                                
+                                   Width="Width="{Binding ActualHeight, ElementName=Rectangle1, Mode=OneWay}"
+                            -->
+                        <Button Text="TestButton"
+                                    Clicked="OnButtonTestClicked"
+                                    HorizontalOptions="End" />
+                    </HorizontalStackLayout>
+
+
                 </Grid>
+
+                <Grid HorizontalOptions="Fill" RowDefinitions="*" ColumnDefinitions="Auto, *, Auto"
+                      ColumnSpacing="4" >
+
+
+                    <Label Text="File: " Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="End"></Label>
+                    <Entry Placeholder="File Path"  Grid.Row="0" Grid.Column="1"
+                           HorizontalOptions="Fill" VerticalOptions="End"
+                           Text="{Binding FilePath}"
+                           />
+                    <Button Text="Browse" Clicked="OnButtonBrowseClicked" 
+                            Grid.Row="0" Grid.Column="2" HorizontalOptions="End" VerticalOptions="End" Margin="10, 0, 0, 0"></Button>
+
+                </Grid>
+                <Label Text="Directory: "></Label><Label Text="{Binding DirectoryPath}" />
 
 
 
                 <Grid HorizontalOptions="Fill" RowDefinitions="1*, 1*, 1*, 1*" 
-                      ColumnDefinitions="0.7*, 0.5*, 5*, *"  >
+                      ColumnDefinitions="Auto, Auto, 5*, *"
+                      RowSpacing="4" ColumnSpacing="4"
+                      >
 
 
                     <Label Grid.Row="0" Grid.Column="0" Text="MD5: " HorizontalOptions="Start" VerticalOptions="End"></Label>
                     <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
-                    <Entry Grid.Row="0" Grid.Column="2" Text="File PathXX"
-                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
+                    <Border Grid.Row="0" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
+                        <Label Text="[[Calculated MD5 value]]" IsEnabled="True"
+                           HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                    </Border>
                     <Button Grid.Row="0" Grid.Column="3" Text="Copy MD5" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
                    
                     <Label Grid.Row="1" Grid.Column="0" Text="SHA-1: " HorizontalOptions="Start" VerticalOptions="End"></Label>
                     <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
-                    <Entry Grid.Row="1" Grid.Column="2" Text="File PathXX"
-                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
+                    <Border Grid.Row="1" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
+                        <Label Text="[[Calculated SHA-1 value]]" IsEnabled="True"
+                           HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                    </Border>
                     <Button Grid.Row="1" Grid.Column="3" Text="Coy SHA-1" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
                    
                     <Label Grid.Row="2" Grid.Column="0" Text="SHA-256: " HorizontalOptions="Start" VerticalOptions="End"></Label>
                     <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
-                    <Entry Grid.Row="2" Grid.Column="2" Text="File PathXX"
-                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
+                    <Border Grid.Row="2" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
+                        <Label Text="[[Calculated SHA-256 value]]" IsEnabled="True"
+                           HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                    </Border>
                     <Button Grid.Row="2" Grid.Column="3" Text="Coy SHA-256" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
                    
                     <Label Grid.Row="3" Grid.Column="0" Text="SHA-256: " HorizontalOptions="Start" VerticalOptions="End"></Label>
-                    <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
-                    <Entry Grid.Row="3" Grid.Column="2" Text="File PathXX"
-                           HorizontalOptions="Fill" VerticalOptions="End"></Entry>
+                    <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="False" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
+                    <Border Grid.Row="3" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
+                        <Label Text="[[Calculated SHA-512 value]]" IsEnabled="True"
+                           HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                    </Border>
                     <Button Grid.Row="3" Grid.Column="3" Text="SHA-512" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
                     
                 </Grid>
@@ -102,7 +157,7 @@
                 <Label Text="File Content Preview:" TextColor="Blue" Padding="0, 5, 0, 0"></Label>
 
                 <Border Stroke="LightBlue" >
-                    <Editor Text="Text goes here." HorizontalOptions="Fill" VerticalOptions="Fill" HeightRequest="100"  />
+                    <Editor Placeholder="Text to be hashed" HorizontalOptions="Fill" VerticalOptions="Fill" HeightRequest="100"  />
                 </Border>
                 
                 <BoxView HorizontalOptions="Fill" HeightRequest="20" />
