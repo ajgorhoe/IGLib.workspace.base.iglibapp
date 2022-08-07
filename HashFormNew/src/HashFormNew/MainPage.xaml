@@ -108,10 +108,25 @@
 
                     <Label Text="File: " Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" 
                            VerticalOptions="Center"></Label>
-                    <Entry Placeholder="File Path"  Grid.Row="0" Grid.Column="1"
+                    <Entry x:Name="FileEntry" Placeholder="File Path"  Grid.Row="0" Grid.Column="1"
                            HorizontalOptions="Fill" VerticalOptions="End"
                            Text="{Binding FilePath}"
-                           />
+                           >
+                        <Entry.GestureRecognizers>
+                            <DropGestureRecognizer
+                        
+                        DragOver="OnDragOverFileEntry"
+                        DragLeave="OnDragLeaveFileEntry"
+                        
+                        />
+                            <!--
+                        DragOver="OnDragOverFileEntry"
+                        DragLeave="OnDragLeaveFileEntry"
+                        Drop="OnDropFileEntry"
+                    -->
+                        </Entry.GestureRecognizers>
+
+                    </Entry>
                     <Button Text="Browse" Clicked="OnButtonBrowseClicked" 
                             Grid.Row="0" Grid.Column="2" HorizontalOptions="End" VerticalOptions="End" Margin="10, 0, 0, 0"></Button>
 
@@ -124,6 +139,10 @@
                     Padding="10, 5, 10, 5"  ZIndex="4" >
                     <VerticalStackLayout HorizontalOptions="Fill">
                         <Label Text="Debug info: " HorizontalOptions="Start" TextDecorations="Underline" />
+                        <HorizontalStackLayout Spacing="4" HorizontalOptions="Fill" >
+                            <Label Text="Num. entries - num. exits: " HorizontalOptions="Start" ></Label>
+                            <Label Text="{Binding NumEntries}"  HorizontalOptions="Start"/>
+                        </HorizontalStackLayout>
                         <HorizontalStackLayout Spacing="4" HorizontalOptions="Fill" >
                             <Label Text="Directory: " HorizontalOptions="Start" ></Label>
                             <Label Text="{Binding DirectoryPath}"  HorizontalOptions="Start"/>

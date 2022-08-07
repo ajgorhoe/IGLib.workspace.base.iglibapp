@@ -1,5 +1,6 @@
 ﻿using IG.App.ViewModel;
 using System.Diagnostics;
+using Windows.ApplicationModel.Background;
 
 namespace IG.App;
 
@@ -36,10 +37,73 @@ public partial class MainPage : ContentPage
     }
 
 
-    async void OnButtonClicked(object sender, EventArgs args)
+    /// <summary>Just to prevent compiiler warinings in async methods that do very little.</summary>
+    /// <param name="callItself"></param>
+    /// <returns></returns>
+    private async Task<bool> DummyAsync(bool callItself = false)
     {
-        await DisplayAlert("Info", "New HashForm application, 2022", "OK");
+        if (callItself)
+        {
+            return await DummyAsync(false);
+        }
+        return true;
     }
+
+    Brush _fileEntryInitialBackground = Color.FromRgb(255, 255, 255);
+
+    string _storedFilePath = null;
+
+
+
+    /// <summary>Indicates visually on the <see cref="FileEntry"/> control that something is dragged over,
+    /// by changing background color.
+    /// <remarks>This should be implemented via VievModel property binding in the future.</remarks></summary>
+    void OnDragOverFileEntry(object sender, DragEventArgs eventArgs)
+    {
+        try
+        {
+            if (ViewModel.NumEntries == 0)
+            {
+                ++ViewModel.NumEntries;
+                _storedFilePath = ViewModel.FilePath;
+                ViewModel.FilePath = "Drag Enter.";
+                // _fileEntryInitialBackground = this.FileEntry.Background;
+                eventArgs.AcceptedOperation = DataPackageOperation.Copy;
+                // this.FileEntry.Background = Color.Parse("Orange");
+            }
+        }
+        catch { }
+        // await DummyAsync();
+    }
+
+    void OnDragLeaveFileEntry(object sender, DragEventArgs eventArgs)
+    {
+        try
+        {
+            ViewModel.NumEntries = 0;
+            if (ViewModel.NumEntries == 0)
+            {
+                ViewModel.FilePath = _storedFilePath;
+                _storedFilePath = null;
+                //this.FileEntry.Background = _fileEntryInitialBackground;
+            }
+        }
+        catch { }
+        // await DummyAsync();
+    }
+
+    async void OnDropFileEntry(object sender, DropEventArgs eventArgs)
+    {
+        this.FileEntry.Background = _fileEntryInitialBackground;
+        this.FileEntry.Text = await eventArgs.Data.GetTextAsync();
+        await DummyAsync();
+    }
+
+
+    //async void OnButtonClicked(object sender, EventArgs args)
+    //{
+    //    await DisplayAlert("Info", "New HashForm application, 2022", "OK");
+    //}
 
 
     async void OnButtonHelpClicked(object sender, EventArgs args)

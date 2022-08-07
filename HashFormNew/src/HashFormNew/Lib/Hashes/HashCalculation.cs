@@ -56,8 +56,32 @@ namespace IG.Crypto
 
     }
 
-    public class HashCalcultorBase : HashConst, IHashCalculator
+    public class HashCalculator: HashCalculatorBase, IHashCalculator
     {
+
+        public HashCalculator() : base()
+        {
+            InstallStandardHashAlgorithms(this);
+        }
+
+    }
+
+    public class HashCalculatorBase : HashConst, IHashCalculator
+    {
+
+        public HashCalculatorBase() : base()
+        {
+        }
+
+        public static void InstallStandardHashAlgorithms(HashCalculatorBase hashCalculator)
+        {
+            hashCalculator.SetHashAlgorithm(MD5Hash, MD5.Create());
+            hashCalculator.SetHashAlgorithm(SHA1Hash, System.Security.Cryptography.SHA1.Create());
+            hashCalculator.SetHashAlgorithm(SHA256Hash, System.Security.Cryptography.SHA256.Create());
+            hashCalculator.SetHashAlgorithm(SHA384Hash, System.Security.Cryptography.SHA384.Create());
+            hashCalculator.SetHashAlgorithm(SHA512Hash, System.Security.Cryptography.SHA512.Create());
+
+        }
 
         private Dictionary<string, HashAlgorithm> HashAlgorithms = new Dictionary<string, HashAlgorithm>();
 
@@ -67,19 +91,6 @@ namespace IG.Crypto
                 throw new ArgumentException("Modifying hash algorithm is not allowed.",nameof(hashName));
             HashAlgorithms[hashName] = algorithm;
         }
-
-        public static void InitStandardHashAlgorithms(HashCalcultorBase hashCalculator)
-        {
-            hashCalculator.SetHashAlgorithm(MD5Hash, MD5.Create());
-            hashCalculator.SetHashAlgorithm(SHA1Hash, System.Security.Cryptography.SHA1.Create());
-            hashCalculator.SetHashAlgorithm(SHA256Hash, System.Security.Cryptography.SHA256.Create());
-            hashCalculator.SetHashAlgorithm(SHA384Hash, System.Security.Cryptography.SHA384.Create());
-            hashCalculator.SetHashAlgorithm(SHA512Hash, System.Security.Cryptography.SHA512.Create());
-
-
-
-        }
-
 
         public virtual HashAlgorithm GetHashAlgorithm(string hashName)
         {

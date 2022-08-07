@@ -48,6 +48,19 @@ public partial class MainViewModel :
     }
 
 
+    private int _numEtries = 0;
+
+    /// <summary>Counts total number of DragEnter / DragLeave events, for debug purposes.</summary>
+    public int NumEntries
+    {
+        get => _numEtries;
+        set 
+        {
+            _numEtries = value;
+            OnPropertyChanged(nameof(NumEntries));
+        }
+    }
+
     public bool IsDebugMode { get; init; }
 
     private bool _isDebugInfoVisible = false;
