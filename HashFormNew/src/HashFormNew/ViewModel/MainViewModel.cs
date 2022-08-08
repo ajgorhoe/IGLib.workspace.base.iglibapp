@@ -83,9 +83,17 @@ public partial class MainViewModel :
             var hashText = async () =>
             {
                 await Task.FromResult(true); // dummy await; ToDo: replace with async method
-                return HashCalculator.CalculateTextHashString(hashType, TextToHash);
+                try
+                {
+                    return HashCalculator.CalculateTextHashString(hashType, TextToHash);
+                }
+                catch
+                {
+                    return null;
+                }
+
             };
-            return await hashText();
+            return await Task.Run(hashText);
         } else if (IsFileHashing)
         {
             if (string.IsNullOrEmpty(FilePath))
@@ -98,9 +106,16 @@ public partial class MainViewModel :
             }
             var hashFile = async () => {
                 await Task.FromResult(true); // dummy await; ToDo: replace with async method
-                return HashCalculator.CalculateFileHashString(hashType, FilePath);
+                try
+                {
+                    return HashCalculator.CalculateFileHashString(hashType, FilePath);
+                }
+                catch
+                {
+                    return null;
+                }
             };
-            return await hashFile();
+            return await Task.Run(hashFile);
         } else
         {
             throw new InvalidOperationException("Input for calculation of hash function is not specified.");
@@ -145,7 +160,7 @@ public partial class MainViewModel :
                 finally
                 {
                     IsCalculating = false;
-                    RefreshHashesOutdatedProperty(false);
+                    RefreshIsHashesOutdated(false);
                 }
             }
             else
@@ -225,27 +240,15 @@ public partial class MainViewModel :
             if (_filePath != value)
             {
                 _filePath = value;
-
-                //if (!string.IsNullOrEmpty(value))
-                //{
-                //    if (IsFileHashing && File.Exists(value))
-                //    {
-                //        IsInputDataSufficient = true;
-                //    }
-                //}
+                OnPropertyChanged(nameof(FilePath));
+                OnPropertyChanged(nameof(DirectoryPath));
                 if (IsFileHashing)
                 {
                     InvalidateHashValues();
                     TextToHash = GetFilePreview(_filePath);
-                    FileInfo fi = new FileInfo(_filePath);
-                    {
-                        IsInputDataSufficient = !string.IsNullOrEmpty(FilePath) 
-                            && File.Exists(FilePath) && fi.Length > 0;
-                    }
-                    OnPropertyChanged(nameof(FilePath));
-                    OnPropertyChanged(nameof(DirectoryPath));
-                    RefreshHashesOutdatedProperty();
                 }
+                RefreshInputDataSufficient();
+                RefreshIsHashesOutdated();
             }
         }
     }
@@ -275,7 +278,8 @@ public partial class MainViewModel :
                 {
                     TextToHash = null; // LastTextToHashWhenTextHashing;
                 }
-                RefreshHashesOutdatedProperty();
+                RefreshInputDataSufficient();
+                RefreshIsHashesOutdated();
             }
         }
     }
@@ -365,7 +369,7 @@ public partial class MainViewModel :
             {
                 _calculateHashesAutomatically = value;
                 OnPropertyChanged(nameof(CalculateHashesAutomatically));
-                RefreshHashesOutdatedProperty();  // to eventually trigger automatic calculation of hashes
+                RefreshIsHashesOutdated();  // to eventually trigger automatic calculation of hashes
             }
         }
     }
@@ -381,7 +385,7 @@ public partial class MainViewModel :
             {
                 _calculateMD5 = value;
                 OnPropertyChanged(nameof(CalculateMD5));
-                RefreshHashesOutdatedProperty();
+                RefreshIsHashesOutdated();
             }
         }
     }
@@ -399,7 +403,7 @@ public partial class MainViewModel :
             {
                 _calculateSHA1 = value;
                 OnPropertyChanged(nameof(CalculateSHA1));
-                RefreshHashesOutdatedProperty();
+                RefreshIsHashesOutdated();
             }
         }
     }
@@ -415,7 +419,7 @@ public partial class MainViewModel :
             {
                 _calculateSHA256 = value;
                 OnPropertyChanged(nameof(CalculateSHA256));
-                RefreshHashesOutdatedProperty();
+                RefreshIsHashesOutdated();
             }
         }
     }
@@ -431,7 +435,7 @@ public partial class MainViewModel :
             {
                 _calculateSHA512 = value;
                 OnPropertyChanged(nameof(CalculateSHA512));
-                RefreshHashesOutdatedProperty();
+                RefreshIsHashesOutdated();
             }
         }
     }
@@ -444,7 +448,7 @@ public partial class MainViewModel :
     /// tasks dependent on this property.</summary>
     /// <param name="performAutomaticCalculations">If false then automatic calculations ae not performed.
     /// Default is true.</param>
-    public bool RefreshHashesOutdatedProperty(bool performAutomaticCalculations =  true)
+    public bool RefreshIsHashesOutdated(bool performAutomaticCalculations =  true)
     {
         bool isOutdated = GetHashesOutdated();  // this will also call OnPropertyChanged(nameof(IsHashesOutdated));
         if (isOutdated)
@@ -610,39 +614,45 @@ public partial class MainViewModel :
         HashValueSHA1 = null;
         HashValueSHA256 = null;
         HashValueSHA512 = null;
-        RefreshHashesOutdatedProperty();
+        RefreshIsHashesOutdated();
+    }
+
+    public bool RefreshInputDataSufficient()
+    {
+        return GetIsInputDataSufficient();
+    }
+
+    protected bool GetIsInputDataSufficient()
+    {
+        bool isSufficient = false;
+        if (IsFileHashing)
+        {
+
+            isSufficient = !string.IsNullOrEmpty(FilePath)
+                && File.Exists(FilePath);
+            if (isSufficient) 
+            { 
+                FileInfo fi = new FileInfo(_filePath);
+                isSufficient = fi.Length > 0;
+            }
+        } else if (IsTextHashing)
+        {
+            isSufficient = !string.IsNullOrEmpty(TextToHash);
+        }
+        if (isSufficient!=_isInputDataSufficient)
+        {
+            _isInputDataSufficient = isSufficient;
+            OnPropertyChanged(nameof(IsInputDataSufficient));
+            RefreshIsHashesOutdated();
+        }
+        return isSufficient;
     }
 
     private bool _isInputDataSufficient = false;
 
     public bool IsInputDataSufficient
     {
-        get => _isInputDataSufficient;
-        set
-        {
-            if (value != _isInputDataSufficient)
-            {
-                if (value == true)
-                {
-                    // Double check that assignment of true is correct:
-                    if (IsFileHashing)
-                    {
-                        if (string.IsNullOrEmpty(FilePath))
-                            return;
-                        if (!File.Exists(FilePath))
-                            return;
-                    } else if (IsTextHashing)
-                    {
-                        if (string.IsNullOrEmpty(TextToHash))
-                            return;
-                    }
-                }
-                _isInputDataSufficient = value;
-                OnPropertyChanged(nameof(IsInputDataSufficient));
-                RefreshHashesOutdatedProperty();
-            }
-
-        }
+        get => GetIsInputDataSufficient();
     }
 
     
@@ -672,10 +682,10 @@ public partial class MainViewModel :
                 if (IsTextHashing)
                 {
                     InvalidateHashValues();
-                    IsInputDataSufficient = !string.IsNullOrEmpty(_textToHash);
                     LastTextToHashWhenTextHashing = _textToHash;
                 }
-                RefreshHashesOutdatedProperty();
+                RefreshInputDataSufficient();
+                RefreshIsHashesOutdated();
             }
         }
     }

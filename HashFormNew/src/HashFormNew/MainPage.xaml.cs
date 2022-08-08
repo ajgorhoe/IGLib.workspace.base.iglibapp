@@ -34,6 +34,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception)
         {
+            ViewModel.FilePath = null;
         }
     }
 
