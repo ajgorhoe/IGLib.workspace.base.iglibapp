@@ -1,4 +1,5 @@
 ﻿using IG.App.ViewModel;
+using System;
 using System.Diagnostics;
 using Windows.ApplicationModel.Background;
 
@@ -37,20 +38,6 @@ public partial class MainPage : ContentPage
     }
 
 
-    ///// <summary>Just to prevent compiiler warinings in async methods that do very little.</summary>
-    ///// <param name="callItself"></param>
-    ///// <returns></returns>
-    //private async Task<bool> DummyAsync(bool callItself = false)
-    //{
-    //    if (callItself)
-    //    {
-    //        return await DummyAsync(false);
-    //    }
-    //    return true;
-    //}
-
-
-
     Brush _fileEntryInitialBackground = Color.FromRgb(255, 255, 255);
 
     string _storedFilePath = null;
@@ -74,7 +61,6 @@ public partial class MainPage : ContentPage
             }
         }
         catch { }
-        // await DummyAsync();
     }
 
     void OnDragLeaveFileEntry(object sender, DragEventArgs eventArgs)
@@ -91,7 +77,6 @@ public partial class MainPage : ContentPage
             }
         }
         catch { }
-        // await DummyAsync();
     }
 
     async void OnDropFileEntry(object sender, DropEventArgs e)
@@ -113,10 +98,7 @@ public partial class MainPage : ContentPage
             ViewModel.DroppedTextValue = await e.Data.GetTextAsync();
         }
         catch { }
-        // await DummyAsync();
     }
-
-
 
 
     async void OnButtonHelpClicked(object sender, EventArgs args)
@@ -132,6 +114,30 @@ public partial class MainPage : ContentPage
     async void OnButtonTestClicked(object sender, EventArgs args)
     {
         await DisplayAlert("Info", "New HashForm application, 2022", "OK");
+    }
+
+
+     void OnButtonClearClicked(object sender, EventArgs args)
+    {
+        ViewModel.InvalidateHashValues();
+    }
+
+    
+
+    async void OnButtonCalculateClicked(object sender, EventArgs args)
+    {
+        try
+        {
+            ViewModel.CalculateMissingHashesAsync();
+            await Task.Delay(50);
+            ViewModel.RefreshHashvaluesInUi();
+            (this.OuterLayout as IView).InvalidateArrange();  // this should force-refrech the updated controls, but it also does not work
+
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("ERROR", $"Error in computation of hash values: {ex.Message}", "OK");
+        }
     }
 
 

@@ -11,7 +11,7 @@
              WidthRequest="800" HeightRequest="700"  
     -->
     
-    <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"  Margin="20">
+    <StackLayout x:Name="OuterLayout"  HorizontalOptions="Fill" VerticalOptions="Fill"  Margin="20">
         <Label Text="Outer layout" ZIndex="2"
                HorizontalOptions="Fill" VerticalOptions="Fill" />
 
@@ -43,17 +43,8 @@
 
                 </Grid>
 
-                <!--
-                <Border HorizontalOptions="Fill" VerticalOptions="Fill" Stroke="Red" StrokeThickness="1" IsVisible="True">
-                </Border>
-                -->
 
                 <Grid Margin="0" HorizontalOptions="Fill">
-
-                    <!--
-                        <Border Stroke="Black" Margin="2" IsEnabled="false">
-                        </Border>
-                    -->
                     <HorizontalStackLayout HorizontalOptions="Start" Spacing="0">
                         <RadioButton IsChecked="{Binding IsFileHashing}" Content="Files" HorizontalOptions="Start" />
                         <RadioButton IsChecked="{Binding IsTextHashing}" Content="Text"  HorizontalOptions="Start" />
@@ -66,47 +57,16 @@
                         <Button Text="About"
                                     Clicked="OnButtonAboutClicked"
                                     HorizontalOptions="End" />
-
-
-                        <Slider x:Name="WidthSlider"  Minimum="0" Maximum="360" Value="1" 
-                                WidthRequest="60"
-                                VerticalOptions="Center"
-                                
-                                />
-                        <Label 
-                            VerticalOptions="Center"
-                            Text="XXX"
-                            BindingContext="{x:Reference Name=WidthSlider}"
-                            />
-                        <!--
-                            Text="{Binding Path=Value, Converter={StaticResource IG.Lib.NumberToTextConverter}}"
-                            Rotation="{Binding Path=Value}"
-                        -->
-
-
-                        <Rectangle x:Name="Rectangle1" Fill="Green" VerticalOptions="Fill" 
-                                   
-                                   WidthRequest="20"
-                                           />
-                        <!--
-                                
-                                WidthRequest="{Binding Value}" 
-                                
-                                   Width="Width="{Binding ActualHeight, ElementName=Rectangle1, Mode=OneWay}"
-                            -->
-                        <Button Text="TestButton"
-                                    Clicked="OnButtonTestClicked"
-                                    HorizontalOptions="End" />
                     </HorizontalStackLayout>
-
-
                 </Grid>
+                
+                
 
                 <Grid HorizontalOptions="Fill" RowDefinitions="*" ColumnDefinitions="Auto, *, Auto"
                       ColumnSpacing="4" >
 
 
-                    <Label Text="File: " Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" 
+                    <Label Text="File: " Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" 
                            VerticalOptions="Center"></Label>
                     <Entry x:Name="FileEntry" Placeholder="File Path"  Grid.Row="0" Grid.Column="1"
                            HorizontalOptions="Fill" VerticalOptions="End"
@@ -133,6 +93,17 @@
                             Grid.Row="0" Grid.Column="2" HorizontalOptions="End" VerticalOptions="End" Margin="10, 0, 0, 0"></Button>
 
                 </Grid>
+
+                <HorizontalStackLayout Margin="0" HorizontalOptions="Fill">
+
+                    <Button x:Name="ButtonCalculate" Text="Calculate Hash Values" 
+                                    Clicked="OnButtonCalculateClicked"
+                                    HorizontalOptions="End" />
+                    <Button x:Name="ButtonClear" Text="Clear Values" 
+                                    Clicked="OnButtonClearClicked"
+                                    HorizontalOptions="End" />
+                </HorizontalStackLayout>
+
                 <Border IsVisible="{Binding IsDebugInfoVisible}" HorizontalOptions="Fill"
                     Stroke="LightBlue"
                     StrokeThickness="1"
@@ -141,6 +112,12 @@
                     Padding="10, 5, 10, 5"  ZIndex="4" >
                     <VerticalStackLayout HorizontalOptions="Fill">
                         <Label Text="Debug info: " HorizontalOptions="Start" TextDecorations="Underline" />
+                        <HorizontalStackLayout Spacing="4" HorizontalOptions="Fill" >
+                            <Label Text="MD5: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
+                            <Label Text="{Binding HashValueMD5}" HorizontalOptions="Start" VerticalOptions="Center"></Label>
+                            <Label Text="SHA1: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
+                            <Label Text="{Binding HashValueSHA1}" HorizontalOptions="Start" VerticalOptions="Center"></Label>
+                        </HorizontalStackLayout>
                         <HorizontalStackLayout Spacing="4" HorizontalOptions="Fill" >
                             <Label Text="Entry counter: " HorizontalOptions="Start" ></Label>
                             <Label Text="{Binding NumEntries}"  HorizontalOptions="Start"/>
@@ -167,6 +144,14 @@
                 </Border>
 
 
+                <!--
+                    Below, the first (bordered) Label would not refresh upon calculation of hashes, probably due to HorizontalOptions="Fill"
+                    - must be a bug in MAUI. Also calling this in button event handler does not help: (this.OuterLayout as IView).InvalidateArrange();
+                 <Border Stroke="Gray" Padding="4, 2, 4, 2">
+                    <Label Text="{Binding HashValueMD5}" HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                </Border>
+                <Label Text="{Binding HashValueMD5}"  HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                -->
 
                 <Grid HorizontalOptions="Fill" RowDefinitions="1*, 1*, 1*, 1*" 
                       ColumnDefinitions="Auto, Auto, 5*, *"
@@ -175,34 +160,32 @@
 
 
                     <Label Grid.Row="0" Grid.Column="0" Text="MD5: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
-                    <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
+                    <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding CalculateMD5}" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
                     <Border Grid.Row="0" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
-                        <Label Text="{Binding HashValueMD5}" IsEnabled="True"
-                           HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                        <Entry IsReadOnly="True" Text="{Binding HashValueMD5}" HorizontalOptions="Fill" VerticalOptions="Center"></Entry>
                     </Border>
                     <Button Grid.Row="0" Grid.Column="3" Text="Copy MD5" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
 
                     <Label Grid.Row="1" Grid.Column="0" Text="SHA-1: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
-                    <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
+                    <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding CalculateSHA1}" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
                     <Border Grid.Row="1" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
-                        <Label  Text="{Binding HashValueSHA1}" IsEnabled="True"
-                           HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                        <Entry IsReadOnly="True" Text="{Binding HashValueSHA1}" HorizontalOptions="Fill" VerticalOptions="Center"></Entry>
                     </Border>
                     <Button Grid.Row="1" Grid.Column="3" Text="Copy SHA-1" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
 
                     <Label Grid.Row="2" Grid.Column="0" Text="SHA-256: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="True" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
+                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding CalculateSHA256}" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
                     <Border Grid.Row="2" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
-                        <Label Text="{Binding HashValueSHA256}" IsEnabled="True"
-                           HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                        <Entry IsReadOnly="True" Text="{Binding HashValueSHA256}" 
+                           HorizontalOptions="Fill" VerticalOptions="Center"></Entry>
                     </Border>
                     <Button Grid.Row="2" Grid.Column="3" Text="Copy SHA-256" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
 
                     <Label Grid.Row="3" Grid.Column="0" Text="SHA-512: " HorizontalOptions="Start" VerticalOptions="Center"></Label>
-                    <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="False" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
+                    <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding CalculateSHA512}" HorizontalOptions="Start" VerticalOptions="End"></CheckBox>
                     <Border Grid.Row="3" Grid.Column="2" Stroke="Gray" Padding="4, 2, 4, 2">
-                        <Label Text="{Binding HashValueSHA256}" IsEnabled="True"
-                           HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                        <Entry IsReadOnly="True" Text="{Binding HashValueSHA512}" 
+                           HorizontalOptions="Fill" VerticalOptions="Center"></Entry>
                     </Border>
                     <Button Grid.Row="3" Grid.Column="3" Text="Copy SHA-512" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10, 0, 0, 0"></Button>
                     
@@ -220,92 +203,8 @@
             
         </Border>
 
-
-        <!--
-        <StackLayout Margin="20">
-            <Label Text="Primary colors" />
-            <BoxView Color="Red"
-                 HeightRequest="40" />
-            <BoxView Color="Yellow"
-                 HeightRequest="40" />
-            <BoxView Color="Blue"
-                 HeightRequest="40" />
-            <Label Text="Secondary colors" />
-            <BoxView Color="Green"
-                 HeightRequest="40" />
-            <BoxView Color="Orange"
-                 HeightRequest="40" />
-            <BoxView Color="Purple"
-                 HeightRequest="40" />
-        </StackLayout>
-        -->
-        
-        
-        <!--
-
-        <Grid RowDefinitions="100, Auto, *"
-          ColumnDefinitions=".75*, .25*"
-          Padding="10"
-          RowSpacing="10"
-          ColumnSpacing="10">
-
-            <Image Grid.ColumnSpan="2"
-                Source="logo.png"
-               BackgroundColor="Transparent"/>
-
-           
-            <Entry Placeholder="Enter task"
-               Text="NOT BOUND TEXT"
-               Grid.Row="1"/>
-
-
-            
-            <Button Text="Add"
-                Grid.Row="1"
-                Grid.Column="1"/>
-
-            
-            
-            
-            
-            <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
-                        SelectionMode="None">
-                
-            
-                
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="{x:Type x:String}">
-                        <SwipeView>
-                            <SwipeView.RightItems>
-                                <SwipeItems>
-                                    <SwipeItem Text="Delete"
-                                           BackgroundColor="Red"
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}"
-                                           CommandParameter="{Binding .}"/>
-                                </SwipeItems>
-                            </SwipeView.RightItems>
-                            <Grid Padding="0,5">
-                                <Frame>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer 
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
-                                           CommandParameter="{Binding .}"/>
-                                    </Frame.GestureRecognizers>
-                                    <Label Text="{Binding .}"
-                                       FontSize="24"/>
-                                </Frame>
-                            </Grid>
-                        </SwipeView>
-                    </DataTemplate>
-
-                </CollectionView.ItemTemplate>
-
-            </CollectionView>
-
-        </Grid>
-
-        -->
-
     </StackLayout>
 
 </ContentPage>
+
+    

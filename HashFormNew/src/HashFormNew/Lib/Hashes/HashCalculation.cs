@@ -98,49 +98,55 @@ namespace IG.Crypto
                 throw new ArgumentException($"Do not have hash computation algorithm corresponding to hash name {hashName}", hashName);
             return HashAlgorithms[hashName];
         }
-        
-        
 
-        public virtual byte[] CalculateHash(string hashName, Byte[] buffer)
+
+        public virtual byte[] CalculateHash(string hashName, Byte[] bytes)
         {
-            return GetHashAlgorithm(hashName).ComputeHash(buffer);
+            return GetHashAlgorithm(hashName).ComputeHash(bytes);
         }
 
-        public virtual string CalculateHashString(string hashName, Byte[] buffer)
+        public virtual string CalculateHashString(string hashName, Byte[] bytes)
         {
-            return HashToHexString(CalculateHash(hashName, buffer));
+            return HashToHexString(CalculateHash(hashName, bytes));
         }
 
+        public virtual byte[] CalculateFileHash(string hashName, string filePath)
+        {
+            using (Stream fileStream = File.OpenRead(filePath))
+            {
+                return GetHashAlgorithm(hashName).ComputeHash(fileStream);
+            }
+        }
 
+        public virtual string CalculateFileHashString(string hashName, string filePath)
+        {
+            return HashToHexString(CalculateFileHash(hashName, filePath));
+        }
 
 
         public virtual byte[] CalculateTextHash(string hashName, string text)
         {
             return CalculateTextHash(hashName, text, Encoding.UTF8);
         }
+
         public virtual byte[] CalculateTextHash(string hashName, string text, Encoding encoding)
         {
-            Byte[] bytes = Encoding.ASCII.GetBytes(text);
+            Byte[] bytes = encoding.GetBytes(text);
             return CalculateHash(hashName, bytes);
 
         }
-
 
         public virtual string CalculateTextHashString(string hashName, string text)
         {
             return HashToHexString(CalculateTextHash(hashName, text));
         }
+
         public virtual string CalculateTextHashString(string hashName, string text, Encoding encoding)
         {
             return HashToHexString(CalculateTextHash(hashName, text, encoding));
         }
 
-
     }
 
-
-
-
-
-
 }
+

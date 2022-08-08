@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using IG.Crypto;
 using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -24,8 +25,10 @@ public partial class MainViewModel :
 
     // event PropertyChangedEventHandler PropertyChanged;
 
-    public MainViewModel()
+    public MainViewModel(HashCalculatorBase hashCalculator = null)
     {
+        HashCalculator = hashCalculator;
+
 #if DEBUG
         IsDebugMode = true;
 #else
@@ -46,6 +49,111 @@ public partial class MainViewModel :
         );
 
     }
+
+
+    private HashCalculatorBase _hashCalculator = null;
+
+
+    // ToDo: replace type with interface!
+    public HashCalculatorBase HashCalculator
+    {
+        get
+        {
+            if (_hashCalculator == null)
+                _hashCalculator = new HashCalculator();
+            return _hashCalculator;
+        }
+        set
+        {
+            if (value != _hashCalculator)
+                _hashCalculator = value;
+        }
+    }
+
+
+    /// <summary>Calculate hash function of specific type on the current input from this class.</summary>
+    /// <param name="hashType">Typ of the hash function applied.</param>
+    /// <returns></returns>
+    protected async Task<string> CalculateHashAsync(string hashType)
+    {
+        if (IsTextHashing)
+        {
+            if (string.IsNullOrEmpty(this.TextToHash))
+                throw new InvalidOperationException("Hash computation: Text to be hashed is empty.");
+            var hashText = async () =>
+            {
+                await Task.FromResult(true); // dummy await; ToDo: replace with async method
+                return HashCalculator.CalculateTextHashString(hashType, TextToHash);
+            };
+            return await hashText();
+        } else if (IsFileHashing)
+        {
+            if (string.IsNullOrEmpty(FilePath))
+            {
+                throw new ArgumentException("Hash computation: Path to file to be hashed is not specified.");
+            }
+            if (!File.Exists(FilePath))
+            {
+                throw new InvalidOperationException("Hash computation: File to be hashed does not exist.");
+            }
+            var hashFile = async () => {
+                await Task.FromResult(true); // dummy await; ToDo: replace with async method
+                return HashCalculator.CalculateFileHashString(hashType, FilePath); 
+            };
+            return await hashFile();
+        } else
+        {
+            throw new InvalidOperationException("Input for calculation of hash function is not specified.");
+        }
+    }
+
+    public async void CalculateMissingHashesAsync()
+    {
+        // ToDo: fix IsHashesOutdated, then remove "|| true"" 
+        if (IsHashesOutdated || true)
+        {
+            if (IsInputDataSufficient)
+            {
+                try
+                {
+                    IsCalculating = true;
+                    if (CalculateMD5 && string.IsNullOrEmpty(HashValueMD5))
+                    {
+                        string hashValue = await CalculateHashAsync(HashConst.MD5Hash);
+                        HashValueMD5 = hashValue;
+                    }
+                    if (CalculateSHA1 && string.IsNullOrEmpty(HashValueSHA1))
+                    {
+                        string hashValue = await CalculateHashAsync(HashConst.SHA1Hash);
+                        HashValueSHA1 = hashValue;
+                    }
+                    if (CalculateSHA256 && string.IsNullOrEmpty(HashValueSHA256))
+                    {
+                        string hashValue = await CalculateHashAsync(HashConst.SHA256Hash);
+                        HashValueSHA256 = hashValue;
+                    }
+                    if (CalculateSHA512 && string.IsNullOrEmpty(HashValueSHA512))
+                    {
+                        string hashValue = await CalculateHashAsync(HashConst.SHA512Hash);
+                        HashValueSHA512 = hashValue;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    IsCalculating = false; ;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Input data for calculation of hashes is not ready.");
+            }
+        }
+    }
+
 
 
     private string _droppedTextValue = null;
@@ -126,6 +234,7 @@ public partial class MainViewModel :
                 }
                 if (IsFileHashing)
                 {
+                    InvalidateHashValues();
                     TextToHash = GetFilePreview(FilePath);
                 }
                 OnPropertyChanged(nameof(FilePath));
@@ -339,6 +448,16 @@ public partial class MainViewModel :
         }
     }
 
+    /// <summary>This method was added in order to alleviate the issue with labels in UI bot refreshing on 
+    /// updating values of <see cref="HashValueMD5"/>, <see cref="HashValueSHA1"/>, etc. Calling this method
+    /// did not help (a possible bug?), but it helped when labels were changed to read-only text entries.</summary>
+    public void RefreshHashvaluesInUi()
+    {
+        OnPropertyChanged(nameof(HashValueMD5));
+        OnPropertyChanged(nameof(HashValueSHA1));
+        OnPropertyChanged(nameof(HashValueSHA256));
+        OnPropertyChanged(nameof(HashValueSHA512));
+    }
 
     private string _hashValueMD5 = null;
 
@@ -350,8 +469,8 @@ public partial class MainViewModel :
             if (value != _hashValueMD5)
             {
                 _hashValueMD5 = value;
-                OnPropertyChanged(nameof(HashValueMD5));
             }
+                OnPropertyChanged(nameof(HashValueMD5));
         }
     }
 
@@ -365,8 +484,8 @@ public partial class MainViewModel :
             if (value != _hashValueSHA1)
             {
                 _hashValueSHA1 = value;
-                OnPropertyChanged(nameof(HashValueSHA1));
             }
+                OnPropertyChanged(nameof(HashValueSHA1));
         }
     }
 
@@ -381,8 +500,8 @@ public partial class MainViewModel :
             if (value != _hashValueSHA256)
             {
                 _hashValueSHA256 = value;
-                OnPropertyChanged(nameof(HashValueSHA256));
             }
+                OnPropertyChanged(nameof(HashValueSHA256));
         }
     }
 
@@ -396,12 +515,12 @@ public partial class MainViewModel :
             if (value != _hashValueSHA512)
             {
                 _hashValueSHA512 = value;
-                OnPropertyChanged(nameof(HashValueSHA512));
             }
+                OnPropertyChanged(nameof(HashValueSHA512));
         }
     }
 
-    protected virtual void InvalidateHashValues()
+    public virtual void InvalidateHashValues()
     {
         HashValueMD5 = null;
         HashValueSHA1 = null;
