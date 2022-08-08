@@ -63,12 +63,21 @@ public partial class MainViewModel :
                 _hashCalculator = new HashCalculator();
             return _hashCalculator;
         }
-        set
+        init
         {
             if (value != _hashCalculator)
                 _hashCalculator = value;
         }
     }
+
+    ICommand CopyToClipboardCommand { get; } = new Command((text) => {
+        if (text != null)
+        {
+
+        }
+    } );
+
+     
 
 
     /// <summary>Calculate hash function of specific type on the current input from this class.</summary>
