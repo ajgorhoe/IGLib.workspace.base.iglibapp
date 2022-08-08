@@ -130,7 +130,7 @@ public partial class MainPage : ContentPage
         {
             ViewModel.CalculateMissingHashesAsync();
             await Task.Delay(50);
-            ViewModel.RefreshHashvaluesInUi();
+            ViewModel.RefreshHashvaluesInUi();  // Once again trigger OnPropertyChanged events
             (this.OuterLayout as IView).InvalidateArrange();  // this should force-refrech the updated controls, but it also does not work
 
         }

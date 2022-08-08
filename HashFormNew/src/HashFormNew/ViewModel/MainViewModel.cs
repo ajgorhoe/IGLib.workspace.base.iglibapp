@@ -98,7 +98,7 @@ public partial class MainViewModel :
             }
             var hashFile = async () => {
                 await Task.FromResult(true); // dummy await; ToDo: replace with async method
-                return HashCalculator.CalculateFileHashString(hashType, FilePath); 
+                return HashCalculator.CalculateFileHashString(hashType, FilePath);
             };
             return await hashFile();
         } else
@@ -110,7 +110,7 @@ public partial class MainViewModel :
     public async void CalculateMissingHashesAsync()
     {
         // ToDo: fix IsHashesOutdated, then remove "|| true"" 
-        if (IsHashesOutdated || true)
+        if (IsHashesOutdated)
         {
             if (IsInputDataSufficient)
             {
@@ -144,7 +144,8 @@ public partial class MainViewModel :
                 }
                 finally
                 {
-                    IsCalculating = false; ;
+                    IsCalculating = false;
+                    RefreshHashesOutdatedProperty(false);
                 }
             }
             else
@@ -161,7 +162,7 @@ public partial class MainViewModel :
     public string DroppedTextValue
     {
         get => _droppedTextValue;
-        set 
+        set
         {
             if (value != _droppedTextValue)
             {
@@ -177,7 +178,7 @@ public partial class MainViewModel :
     public int NumEntries
     {
         get => _numEtries;
-        set 
+        set
         {
             if (value != _numEtries)
             {
@@ -225,20 +226,26 @@ public partial class MainViewModel :
             {
                 _filePath = value;
 
-                if (!string.IsNullOrEmpty(value))
-                {
-                    if (IsFileHashing && File.Exists(value))
-                    {
-                        IsInputDataSufficient = true;
-                    }
-                }
+                //if (!string.IsNullOrEmpty(value))
+                //{
+                //    if (IsFileHashing && File.Exists(value))
+                //    {
+                //        IsInputDataSufficient = true;
+                //    }
+                //}
                 if (IsFileHashing)
                 {
                     InvalidateHashValues();
-                    TextToHash = GetFilePreview(FilePath);
+                    TextToHash = GetFilePreview(_filePath);
+                    FileInfo fi = new FileInfo(_filePath);
+                    {
+                        IsInputDataSufficient = !string.IsNullOrEmpty(FilePath) 
+                            && File.Exists(FilePath) && fi.Length > 0;
+                    }
+                    OnPropertyChanged(nameof(FilePath));
+                    OnPropertyChanged(nameof(DirectoryPath));
+                    RefreshHashesOutdatedProperty();
                 }
-                OnPropertyChanged(nameof(FilePath));
-                OnPropertyChanged(nameof(DirectoryPath));
             }
         }
     }
@@ -268,6 +275,7 @@ public partial class MainViewModel :
                 {
                     TextToHash = null; // LastTextToHashWhenTextHashing;
                 }
+                RefreshHashesOutdatedProperty();
             }
         }
     }
@@ -327,7 +335,7 @@ public partial class MainViewModel :
         using (StreamReader reader = new StreamReader(filePath))
         {
             string line;
-            while ((line = reader.ReadLine()) != null && numLinesRead <_maxLines)
+            while ((line = reader.ReadLine()) != null && numLinesRead < _maxLines)
             {
                 ++numLinesRead;
                 sb.AppendLine(line);
@@ -346,6 +354,22 @@ public partial class MainViewModel :
         set { IsFileHashing = !value; }
     }
 
+    private bool _calculateHashesAutomatically = false;
+
+    public bool CalculateHashesAutomatically
+    {
+        get => _calculateHashesAutomatically;
+        set
+        {
+            if (value != _calculateHashesAutomatically)
+            {
+                _calculateHashesAutomatically = value;
+                OnPropertyChanged(nameof(CalculateHashesAutomatically));
+                RefreshHashesOutdatedProperty();  // to eventually trigger automatic calculation of hashes
+            }
+        }
+    }
+
     private bool _calculateMD5 = true;
 
     public bool CalculateMD5
@@ -357,6 +381,7 @@ public partial class MainViewModel :
             {
                 _calculateMD5 = value;
                 OnPropertyChanged(nameof(CalculateMD5));
+                RefreshHashesOutdatedProperty();
             }
         }
     }
@@ -374,6 +399,7 @@ public partial class MainViewModel :
             {
                 _calculateSHA1 = value;
                 OnPropertyChanged(nameof(CalculateSHA1));
+                RefreshHashesOutdatedProperty();
             }
         }
     }
@@ -389,8 +415,7 @@ public partial class MainViewModel :
             {
                 _calculateSHA256 = value;
                 OnPropertyChanged(nameof(CalculateSHA256));
-                if (value == true)
-                    IsHashesOutdated = true;
+                RefreshHashesOutdatedProperty();
             }
         }
     }
@@ -406,23 +431,82 @@ public partial class MainViewModel :
             {
                 _calculateSHA512 = value;
                 OnPropertyChanged(nameof(CalculateSHA512));
+                RefreshHashesOutdatedProperty();
             }
         }
     }
 
 
+
+
+
+    /// <summary>Recalculates the <see cref="IsHashesOutdated"/> property, and performs any automatic 
+    /// tasks dependent on this property.</summary>
+    /// <param name="performAutomaticCalculations">If false then automatic calculations ae not performed.
+    /// Default is true.</param>
+    public bool RefreshHashesOutdatedProperty(bool performAutomaticCalculations =  true)
+    {
+        bool isOutdated = GetHashesOutdated();  // this will also call OnPropertyChanged(nameof(IsHashesOutdated));
+        if (isOutdated)
+        {
+            if (CalculateHashesAutomatically && performAutomaticCalculations && !IsCalculating)
+            {
+                try
+                {
+                    CalculateMissingHashesAsync();
+                }
+                catch
+                { }
+                finally
+                {
+                    isOutdated = GetHashesOutdated();
+                }
+            }
+        }
+        return isOutdated;
+    }
+
+
+    /// <summary>Computes the true value for <see cref="IsHashesOutdated"/>.</summary>
+    /// <returns></returns>
+    protected bool GetHashesOutdated()
+    {
+        bool isOutdated = false;
+        if (IsInputDataSufficient)
+        {
+            if (CalculateMD5 && string.IsNullOrEmpty(HashValueMD5))
+            {
+                isOutdated = true;
+            }
+            else if (CalculateSHA1 && string.IsNullOrEmpty(HashValueSHA1))
+            {
+                isOutdated = true;
+            }
+            else if (CalculateSHA256 && string.IsNullOrEmpty(HashValueSHA256))
+            {
+                isOutdated = true;
+            }
+            else if (CalculateSHA512 && string.IsNullOrEmpty(HashValueSHA512))
+            {
+                isOutdated = true;
+            }
+        }
+        if (isOutdated != _isHashesOutdated)
+        {
+            _isHashesOutdated = isOutdated;
+            OnPropertyChanged(nameof(IsHashesOutdated));
+        }
+        return isOutdated;
+    }
+
     private bool _isHashesOutdated = false;
 
+    /// <summary>Whether the currently kept hash values are outdated and need recalculation.</summary>
     public bool IsHashesOutdated
     {
-        get => _isHashesOutdated;
-        set
+        get
         {
-            if (value != _isHashesOutdated)
-            {
-                _isHashesOutdated = value;
-                OnPropertyChanged(nameof(IsHashesOutdated));
-            }
+            return GetHashesOutdated();
         }
     }
 
@@ -470,7 +554,7 @@ public partial class MainViewModel :
             {
                 _hashValueMD5 = value;
             }
-                OnPropertyChanged(nameof(HashValueMD5));
+            OnPropertyChanged(nameof(HashValueMD5));
         }
     }
 
@@ -485,7 +569,7 @@ public partial class MainViewModel :
             {
                 _hashValueSHA1 = value;
             }
-                OnPropertyChanged(nameof(HashValueSHA1));
+            OnPropertyChanged(nameof(HashValueSHA1));
         }
     }
 
@@ -501,7 +585,7 @@ public partial class MainViewModel :
             {
                 _hashValueSHA256 = value;
             }
-                OnPropertyChanged(nameof(HashValueSHA256));
+            OnPropertyChanged(nameof(HashValueSHA256));
         }
     }
 
@@ -516,7 +600,7 @@ public partial class MainViewModel :
             {
                 _hashValueSHA512 = value;
             }
-                OnPropertyChanged(nameof(HashValueSHA512));
+            OnPropertyChanged(nameof(HashValueSHA512));
         }
     }
 
@@ -526,7 +610,7 @@ public partial class MainViewModel :
         HashValueSHA1 = null;
         HashValueSHA256 = null;
         HashValueSHA512 = null;
-        IsHashesOutdated = true;
+        RefreshHashesOutdatedProperty();
     }
 
     private bool _isInputDataSufficient = false;
@@ -555,23 +639,18 @@ public partial class MainViewModel :
                 }
                 _isInputDataSufficient = value;
                 OnPropertyChanged(nameof(IsInputDataSufficient));
-                if (value)
-                {
-                    IsHashesOutdated = true;
-                }
+                RefreshHashesOutdatedProperty();
             }
 
         }
     }
 
-    // private bool _isCalculationButtonsEnabled = false;
-
+    
     public bool IsCalculationButtonsEnabled
     {
         get => IsInputDataSufficient && IsHashesOutdated && !IsCalculating;
     }
 
-    private string _textEntryLabelText = null;
 
     public string TextEntryLabelText
     {
@@ -596,7 +675,7 @@ public partial class MainViewModel :
                     IsInputDataSufficient = !string.IsNullOrEmpty(_textToHash);
                     LastTextToHashWhenTextHashing = _textToHash;
                 }
-
+                RefreshHashesOutdatedProperty();
             }
         }
     }
@@ -605,39 +684,21 @@ public partial class MainViewModel :
 
     protected string LastTextToHashWhenTextHashing { get; set; } = null;
 
-    protected void OnFilePropertiesChanged()
-    {
-        if (IsFileHashing)
-        {
-            // ToDo: put file preview into TextToHash!
-        } else
-        {
-
-        }
-    }
-
-
-
-
-
-
-    //double number = 1;
-
-    //public double Number
+    //protected void OnFilePropertiesChanged()
     //{
-    //    get
+    //    if (IsFileHashing)
     //    {
-    //        return number;
-    //    }
-    //    set
+    //        // ToDo: put file preview into TextToHash!
+    //    } else
     //    {
-    //        if (number != value)
-    //        {
-    //            number = value;
-    //            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Number"));
-    //        }
+
     //    }
     //}
+
+
+
+
+
 
 
 

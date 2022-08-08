@@ -102,6 +102,8 @@
                     <Button x:Name="ButtonClear" Text="Clear Values" 
                                     Clicked="OnButtonClearClicked"
                                     HorizontalOptions="End" />
+                    <Label Text="Recalculate Automatically: " VerticalOptions="Center" />
+                    <CheckBox x:Name="ChkCalculateAutomatically" IsChecked="{Binding CalculateHashesAutomatically}" />
                 </HorizontalStackLayout>
 
                 <Border IsVisible="{Binding IsDebugInfoVisible}" HorizontalOptions="Fill"
