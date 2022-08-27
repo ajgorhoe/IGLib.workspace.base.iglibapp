@@ -1,4 +1,10 @@
 
+TO DO: 
+Some time in the future, separate directories for projects HashForm, HashShell
+itd. Having these project share its projct directory does not serve the 
+purpose any more.
+
+
 This repository was created from the shelldev repository to contain 
 some of the applications that use the IGLib libraries.
 
@@ -11,5 +17,6 @@ Branches to sync from upstream to local:
 
 WARNING: 
 Do not push to uppstream repo, and pull only specific branches from it!
+
 
 
