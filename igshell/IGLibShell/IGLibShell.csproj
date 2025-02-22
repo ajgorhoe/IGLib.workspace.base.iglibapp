@@ -54,7 +54,7 @@
 		<ProjectReference Include="..\..\..\iglib\extensions\igplot3d\plot3d\IGLibPlot3D.csproj" />
 		<ProjectReference Include="..\..\..\iglib\igbase\IGLib.csproj" />
 		<ProjectReference Include="..\..\..\iglib\igforms\IGLibForms.csproj" />
-		<ProjectReference Include="..\..\..\iglib\modules\IGLibCore\src\IGLibCore.csproj" />
+		<ProjectReference Include="..\..\..\..\modules\IGLibCore\src\IGLib.Core\IGLib.Core.csproj" />
 	</ItemGroup>
 
 

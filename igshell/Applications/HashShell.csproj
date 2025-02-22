@@ -46,7 +46,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\iglib\igbase\IGLib.csproj" />
     <ProjectReference Include="..\..\..\iglib\igforms\IGLibForms.csproj" />
-    <ProjectReference Include="..\..\..\iglib\modules\IGLibCore\src\IGLibCore.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\IGLibCore\src\IGLib.Core\IGLib.Core.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
