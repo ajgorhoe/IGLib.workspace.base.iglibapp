@@ -2,13 +2,14 @@
 
   <PropertyGroup>
     <!--
-    <TargetFrameworks>net5.0;net48;net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;net48;net461;netstandard2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TargetFramework>net40</TargetFramework>
-    <TargetFrameworks>net5.0</TargetFrameworks>
+	Relevant targets:
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
     -->
 
-	<TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
+	<TargetFrameworks>net48</TargetFrameworks>
 	<UseWindowsForms>true</UseWindowsForms>
 	<OutputType>Exe</OutputType>
     <OutputPath>../ApplicationBinaries/Guest_IGShell</OutputPath>
@@ -31,13 +32,13 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\..\IGLibCore\src\IGLib.Core\IGLib.Core.csproj" />
+    <ProjectReference Include="..\..\..\iglibexternal\IGLibExternal\mathnet-numerics\src\Numerics\Numerics.csproj" />
     <ProjectReference Include="..\..\..\iglib\extensions\iglibext\IGLibExt.csproj" />
     <ProjectReference Include="..\..\..\iglib\extensions\igplot2d\plot2d\IGLibPlot2D.csproj" />
     <ProjectReference Include="..\..\..\iglib\extensions\igplot3d\plot3d\IGLibPlot3D.csproj" />
-    <ProjectReference Include="..\..\..\iglib\external\mathnet-numerics\src\Numerics\Numerics.csproj" />
     <ProjectReference Include="..\..\..\iglib\igbase\IGLib.csproj" />
     <ProjectReference Include="..\..\..\iglib\igforms\IGLibForms.csproj" />
-    <ProjectReference Include="..\..\..\..\modules\IGLibCore\src\IGLib.Core\IGLib.Core.csproj" />
   </ItemGroup>
   
   <ItemGroup>

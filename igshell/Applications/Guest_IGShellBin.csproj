@@ -80,13 +80,13 @@
     <None Include="data\ExamplesIGShell.cmd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\iglib\external\mathnet-numerics\src\Numerics\Numerics.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="HashForm\ProgramHashGui.cs" />
     <Compile Remove="HashForm\SharedProgramHashGui.cs" />
     <Compile Remove="HashShell\AppEmbeddedCrypto.cs" />
     <Compile Remove="HashShell\ProgramHashShell.cs" />
     <Compile Remove="HashShell\SharedProgramHashShell.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\iglibexternal\IGLibExternal\mathnet-numerics\src\Numerics\Numerics.csproj" />
   </ItemGroup>
 </Project>

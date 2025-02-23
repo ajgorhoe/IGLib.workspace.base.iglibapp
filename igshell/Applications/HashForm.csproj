@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <!--
-    <TargetFrameworks>net5.0;net48;net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;net48;net48;net461;netstandard2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	Relevant targets:
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
     -->
 
-    <TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net48</TargetFrameworks>
 	<UseWindowsForms>true</UseWindowsForms>
 	<OutputType>WinExe</OutputType>
     <OutputPath>../ApplicationBinaries/HashForm</OutputPath>
@@ -37,9 +39,9 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\..\IGLibCore\src\IGLib.Core\IGLib.Core.csproj" />
     <ProjectReference Include="..\..\..\iglib\igbase\IGLib.csproj" />
     <ProjectReference Include="..\..\..\iglib\igforms\IGLibForms.csproj" />
-    <ProjectReference Include="..\..\..\..\modules\IGLibCore\src\IGLib.Core\IGLib.Core.csproj" />
   </ItemGroup>
   
   
